@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Random Player Studio is an indie game studio in Rotterdam making mobile games and board games.">
+<link rel="canonical" href="https://randomplayerstudio.com/">
+<meta property="og:title" content="Random Player Studio">
+<meta property="og:description" content="Indie game studio in Rotterdam making mobile games and board games.">
+<meta property="og:url" content="https://randomplayerstudio.com/">
+<meta property="og:image" content="https://randomplayerstudio.com/logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="logo-small.png">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Random Player Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: una mesa de juego. Hero con un dado que asigna tu número de jugador; los juegos son cartas con su ficha técnica. */
+:root{
+  --bg:#EEF3F8; --surface:#FFFFFF; --ink:#021539; --muted:#4F6180; --line:#D2DCE8;
+  --cobalt:#021539; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#0079C2;
+  --display:"Bagel Fat One", "Arial Black", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#020D24; --surface:#0A1D3D; --ink:#EAF2FB; --muted:#9DB0CC; --line:#1C3358;
+  --cobalt:#0B2A55; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#3FC0FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#020D24; --surface:#0A1D3D; --ink:#EAF2FB; --muted:#9DB0CC; --line:#1C3358;
+  --cobalt:#0B2A55; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#3FC0FF; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
+.label{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* Nav */
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;font-size:1.05rem}
+.brand img{width:44px;height:44px;border-radius:12px;background:#FFFFFF;border:1px solid var(--line);display:block}
+.nav-right{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-weight:500;flex-wrap:wrap}
+nav ul a{text-decoration:none;color:var(--muted)}
+nav ul a:hover{color:var(--ink)}
+.lang{display:inline-flex;border:2px solid var(--ink);border-radius:999px;padding:2px;gap:2px}
+.lang button{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;border:none;background:transparent;color:var(--ink);padding:5px 10px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* Hero */
+.hero .wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:48px;align-items:center;padding-block:48px 72px}
+.hero h1{font-size:clamp(2.8rem,8vw,5.6rem);letter-spacing:-.01em}
+.hero h1 .num{color:var(--accent);display:inline-block;min-width:1.3ch;font-variant-numeric:tabular-nums}
+.hero p{max-width:34ch;font-size:1.2rem;color:var(--muted);margin:20px 0 28px}
+.hero-text{min-width:0}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--ink);font-family:var(--body);font-size:1rem;cursor:pointer;background:transparent;color:var(--ink);transition:transform .15s}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn:hover{transform:translateY(-2px)}
+
+.table{display:flex;flex-direction:column;align-items:center;gap:18px}
+.die{width:min(220px,60vw);aspect-ratio:1;max-width:100%;border-radius:22%;background:var(--sun);border:none;cursor:pointer;
+  display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:16%;gap:6%;
+  box-shadow:0 14px 0 -2px color-mix(in srgb,var(--sun) 55%,#000), 0 30px 50px -20px rgba(0,0,0,.35);transform:rotate(-8deg);transition:transform .2s}
+.die:hover{transform:rotate(-4deg) translateY(-4px)}
+.die span{border-radius:50%;background:var(--pip);opacity:0;transform:scale(.4);transition:opacity .15s,transform .15s}
+.die span.on{opacity:1;transform:scale(1)}
+.die.rolling{animation:roll .55s cubic-bezier(.3,.7,.4,1)}
+@keyframes roll{0%{transform:rotate(-8deg)}35%{transform:rotate(200deg) scale(.88)}70%{transform:rotate(340deg) scale(1.05)}100%{transform:rotate(352deg)}}
+.die-hint{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-align:center}
+
+/* Sections */
+section{padding-block:64px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+.sec-head h2{font-size:clamp(2rem,5vw,3.2rem)}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0;position:relative}
+.card.feat{background:var(--cobalt);color:var(--on-cobalt);border-color:transparent}
+.card.feat .label,.card.feat .desc{color:inherit;opacity:.85}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.suit{font-family:var(--display);font-size:1.6rem;line-height:1}
+.status{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
+.card.feat .status{background:var(--sun);color:#021539;border-color:var(--sun)}
+.card h3{font-size:1.9rem}
+.desc{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:auto 0 0;padding-top:14px;border-top:1px dashed color-mix(in srgb,currentColor 35%,transparent);font-size:.92rem}
+.stats dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.7;padding-top:3px}
+.stats dd{margin:0;font-weight:600}
+
+/* About */
+.about{background:var(--surface);border-block:1px solid var(--line)}
+.about .wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+.about h2{font-size:clamp(2rem,5vw,3.2rem)}
+.about p{margin:0 0 16px;max-width:60ch}
+.about-logo{width:min(260px,70%);aspect-ratio:1;border-radius:28px;background:#FFFFFF;border:1px solid var(--line);margin-top:28px;display:block}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;list-style:none;padding:0}
+.facts li{font-family:var(--mono);font-size:.8rem;padding:7px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+
+/* Community */
+.socials{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:1000px) and (min-width:861px){.socials{grid-template-columns:repeat(2,1fr)}}
+.social{display:flex;flex-direction:column;gap:6px;padding:22px;border-radius:16px;border:2px solid var(--ink);text-decoration:none;transition:background .15s,color .15s}
+.social:hover{background:var(--ink);color:var(--bg)}
+.social strong{font-family:var(--display);font-weight:400;font-size:1.6rem}
+.social span{font-family:var(--mono);font-size:.82rem;opacity:.75;overflow-wrap:anywhere}
+
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:32px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .hero .wrap,.about .wrap{grid-template-columns:1fr;gap:36px}
+  .cards,.socials{grid-template-columns:1fr}
+  .table{order:-1}
+  nav ul{gap:16px;font-size:.95rem}
+  .nav-right{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){.die.rolling{animation:none}.btn,.die,.social{transition:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#inicio" data-i18n-aria="brandAria" aria-label="Random Player Studio, home"><img src="logo-small.png" alt="" width="44" height="44">Random Player Studio</a>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#juegos" data-i18n="navGames">Games</a></li>
+        <li><a href="#estudio" data-i18n="navStudio">Studio</a></li>
+        <li><a href="#comunidad" data-i18n="navCommunity">Community</a></li>
+      </ul>
+      <div class="lang" role="group" aria-label="Language / Idioma">
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="true" lang="en">EN</button>
+        <button type="button" id="lang-es" data-lang="es" aria-pressed="false" lang="es">ES</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="hero-text">
+      <span class="label" data-i18n="heroLabel">Indie studio · Rotterdam</span>
+      <h1><span data-i18n="heroTitle">Today you're player</span> <span class="num" id="num">4</span>.</h1>
+      <p data-i18n="heroText">We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.</p>
+      <div class="btns">
+        <a class="btn primary" href="#juegos" data-i18n="ctaGames">See the games</a>
+        <a class="btn" href="#comunidad" data-i18n="ctaCommunity">Join the community</a>
+      </div>
+    </div>
+    <div class="table">
+      <button class="die" id="die" type="button" data-i18n-aria="dieAria" aria-label="Roll the die">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </button>
+      <div class="die-hint" id="hint" aria-live="polite">Tap the die to roll</div>
+    </div>
+  </div>
+</header>
+
+<section id="juegos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-i18n="gamesTitle">Our games</h2>
+      <span class="label" data-i18n="gamesCount">3 projects on the table</span>
+    </div>
+    <div class="cards">
+      <article class="card feat">
+        <div class="card-top"><span class="suit" aria-hidden="true">★</span><span class="status" data-i18n="soon">Coming soon</span></div>
+        <h3>Not From Here</h3>
+        <p class="desc" data-i18n="nfhDesc">Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?</p>
+        <dl class="stats">
+          <dt data-i18n="genre">Genre</dt><dd data-i18n="nfhGenre">Survival</dd>
+          <dt data-i18n="platform">Platform</dt><dd>Android · Google Play</dd>
+          <dt data-i18n="controls">Controls</dt><dd data-i18n="nfhControls">Touch, one hand</dd>
+        </dl>
+      </article>
+      <article class="card">
+        <div class="card-top"><span class="suit" aria-hidden="true">♠</span><span class="status" data-i18n="inDev">In development</span></div>
+        <h3>Blood and Ron</h3>
+        <p class="desc" data-i18n="barDesc">A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.</p>
+        <dl class="stats">
+          <dt data-i18n="genre">Genre</dt><dd data-i18n="barGenre">Strategy card game</dd>
+          <dt data-i18n="players">Players</dt><dd>2–6</dd>
+          <dt data-i18n="format">Format</dt><dd data-i18n="barFormat">Physical game · Kickstarter</dd>
+        </dl>
+      </article>
+      <article class="card">
+        <div class="card-top"><span class="suit" aria-hidden="true">♣</span><span class="status" data-i18n="proto">Prototype</span></div>
+        <h3 data-i18n="botTitle">The Apothecary</h3>
+        <p class="desc" data-i18n="botDesc">Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.</p>
+        <dl class="stats">
+          <dt data-i18n="genre">Genre</dt><dd data-i18n="botGenre">Management · Crafting</dd>
+          <dt data-i18n="platform">Platform</dt><dd>PC</dd>
+          <dt data-i18n="engine">Engine</dt><dd>Unity 3D</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="estudio">
+  <div class="wrap">
+    <div>
+      <span class="label" data-i18n="aboutLabel">The studio</span>
+      <h2 data-i18n="aboutTitle">One designer, lots of dice.</h2>
+      <img class="about-logo" src="logo.png" data-i18n-alt="logoAlt" alt="Random Player Studio logo: an astronaut with headphones playing with a controller in an armchair" width="352" height="352">
+    </div>
+    <div>
+      <p data-i18n="aboutP1">Random Player Studio is an independent studio based in Rotterdam. It was born from a love of testing ideas fast: simple mobile games and board games you can learn in five minutes and keep playing for years.</p>
+      <p data-i18n="aboutP2">We design in the open. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.</p>
+      <ul class="facts">
+        <li>Unity</li><li data-i18n="factMix">Mobile + tabletop</li><li>Rotterdam, NL</li><li data-i18n="factSince">Since 2026</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="comunidad">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-i18n="commTitle">Play with us</h2>
+      <span class="label" data-i18n="commLabel">Prototypes, betas and news</span>
+    </div>
+    <div class="socials">
+      <a class="social" href="https://discord.gg/3c8QXdY3s" id="discord" target="_blank" rel="noopener"><strong>Discord</strong><span data-i18n="discordText">A channel per game · tests and feedback</span></a>
+      <a class="social" href="https://www.tiktok.com/@randomplayerstudio" target="_blank" rel="noopener"><strong>TikTok</strong><span>@randomplayerstudio</span></a>
+      <a class="social" href="https://www.linkedin.com/company/random-player-studios" target="_blank" rel="noopener"><strong>LinkedIn</strong><span>Random Player Studio</span></a>
+      <a class="social" href="mailto:contact@randomplayerstudio.com"><strong data-i18n="emailTitle">Email</strong><span>contact@randomplayerstudio.com</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Random Player Studio · Rotterdam · contact@randomplayerstudio.com</span>
+    <span data-i18n="footer">Made with dice and Unity</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var T={
+    en:{brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
+      heroLabel:"Indie studio · Rotterdam",heroTitle:"Today you're player",
+      heroText:"We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.",
+      ctaGames:"See the games",ctaCommunity:"Join the community",dieAria:"Roll the die",hint:"Tap the die to roll",
+      gamesTitle:"Our games",gamesCount:"3 projects on the table",soon:"Coming soon",inDev:"In development",proto:"Prototype",
+      nfhDesc:"Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?",
+      genre:"Genre",platform:"Platform",controls:"Controls",players:"Players",format:"Format",engine:"Engine",
+      nfhGenre:"Survival",nfhControls:"Touch, one hand",
+      barDesc:"A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.",
+      barGenre:"Strategy card game",barFormat:"Physical game · Kickstarter",
+      botTitle:"The Apothecary",botDesc:"Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.",
+      botGenre:"Management · Crafting",
+      aboutLabel:"The studio",aboutTitle:"One designer, lots of dice.",
+      logoAlt:"Random Player Studio logo: an astronaut with headphones playing with a controller in an armchair",
+      aboutP1:"Random Player Studio is an independent studio based in Rotterdam. It was born from a love of testing ideas fast: simple mobile games and board games you can learn in five minutes and keep playing for years.",
+      aboutP2:"We design in the open. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.",
+      factMix:"Mobile + tabletop",factSince:"Since 2026",commTitle:"Play with us",commLabel:"Prototypes, betas and news",
+      discordText:"A channel per game · tests and feedback",emailTitle:"Email",footer:"Made with dice and Unity",
+      lines:{1:"You go first. No pressure.",2:"Player 2 has joined the game.",3:"Not first, not last. Perfect.",4:"A good number for a card game.",5:"Almost full. Don't let them see you coming.",6:"Six: a full table in Blood and Ron."}},
+    es:{brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
+      heroLabel:"Estudio indie · Rotterdam",heroTitle:"Hoy eres el jugador",
+      heroText:"Hacemos juegos para móvil y juegos de mesa. Partidas cortas, ideas raras y siempre un poco de azar.",
+      ctaGames:"Ver los juegos",ctaCommunity:"Únete a la comunidad",dieAria:"Tirar el dado",hint:"Toca el dado para tirar",
+      gamesTitle:"Nuestros juegos",gamesCount:"3 proyectos en la mesa",soon:"Próximamente",inDev:"En desarrollo",proto:"Prototipo",
+      nfhDesc:"Algo que no es de este planeta llega a España. Cada oleada, otro país se suma a la caza: Francia, Alemania, Estados Unidos, Japón, China… ¿Hasta dónde llegas?",
+      genre:"Género",platform:"Plataforma",controls:"Control",players:"Jugadores",format:"Formato",engine:"Motor",
+      nfhGenre:"Supervivencia",nfhControls:"Táctil, una mano",
+      barDesc:"Juego de cartas de piratas en el Caribe. Elige entre diez piratas históricos, como Barbanegra o Mary Read, negocia, traiciona y quédate con el tesoro.",
+      barGenre:"Cartas de estrategia",barFormat:"Juego físico · Kickstarter",
+      botTitle:"El Boticario",botDesc:"Acompañas a los grupos del gremio a las mazmorras, recoges ingredientes, preparas pociones y las vendes en tu propia tienda. Nombre provisional.",
+      botGenre:"Gestión · Crafteo",
+      aboutLabel:"El estudio",aboutTitle:"Un diseñador, muchos dados.",
+      logoAlt:"Logo de Random Player Studio: un astronauta con cascos jugando con un mando en un sillón",
+      aboutP1:"Random Player Studio es un estudio independiente con base en Rotterdam. Nace de las ganas de probar ideas rápido: juegos sencillos para el móvil y juegos de mesa que se explican en cinco minutos y se juegan durante años.",
+      aboutP2:"Diseñamos en público. Cada juego tiene su propio canal en Discord, donde compartimos prototipos, pedimos opiniones y buscamos testers.",
+      factMix:"Móvil + mesa",factSince:"Desde 2026",commTitle:"Juega con nosotros",commLabel:"Prototipos, betas y novedades",
+      discordText:"Un canal por juego · tests y feedback",emailTitle:"Correo",footer:"Hecho con dados y Unity",
+      lines:{1:"Empiezas tú. Sin presión.",2:"Jugador 2 se ha unido a la partida.",3:"Ni primero ni último. Perfecto.",4:"Buen número para una partida de cartas.",5:"Casi lleno. Que no te vean venir.",6:"Seis: mesa completa en Blood and Ron."}}
+  };
+  var lang="en",rolled=0;
+  var hint=document.getElementById('hint');
+  function setLang(l){
+    if(!T[l])return; lang=l; var d=T[l];
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(d[k])el.textContent=d[k];});
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){el.setAttribute('aria-label',d[el.getAttribute('data-i18n-aria')]);});
+    document.querySelectorAll('[data-i18n-alt]').forEach(function(el){el.setAttribute('alt',d[el.getAttribute('data-i18n-alt')]);});
+    hint.textContent=rolled?d.lines[rolled]:d.hint;
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l?'true':'false');});
+    try{localStorage.setItem('rps-lang',l);}catch(e){}
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang);});});
+  try{var saved=localStorage.getItem('rps-lang');if(saved&&saved!=='en')setLang(saved);}catch(e){}
+
+  var faces={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+  var die=document.getElementById('die'),pips=die.querySelectorAll('span'),num=document.getElementById('num');
+  function show(n){pips.forEach(function(p,i){p.classList.toggle('on',faces[n].indexOf(i)>-1)});}
+  show(4);
+  die.addEventListener('click',function(){
+    var n=1+Math.floor(Math.random()*6);
+    die.classList.remove('rolling');void die.offsetWidth;die.classList.add('rolling');
+    var t=0,iv=setInterval(function(){show(1+Math.floor(Math.random()*6));if(++t>4){clearInterval(iv);show(n);num.textContent=n;rolled=n;hint.textContent=T[lang].lines[n];}},90);
+  });
+})();
+</script>
+
+</body>
+</html>
