@@ -192,16 +192,26 @@ footer{border-top:1px solid var(--line)}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-block:36px;color:var(--faint);font-size:.88rem}
 footer .brand{color:var(--ink)}
 
-/* NFH key art */
-.nfh-art{position:absolute;inset:0;overflow:hidden;background:#000}
-.nfh-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1.04);transition:transform .8s ease}
-.game.feat:hover .nfh-art img{transform:scale(1.09)}
-.nfh-art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--panel-2) 0%,rgba(16,32,74,.55) 18%,transparent 45%),linear-gradient(0deg,rgba(5,11,28,.5),transparent 40%)}
-.app-row{display:flex;align-items:center;gap:14px}
+/* NFH key art: recrea el menú del juego */
+.nfh-scene{position:absolute;inset:0;overflow:hidden;background:#000}
+.nfh-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 78%;transform:scale(1.03);transition:transform 1s ease}
+.game.feat:hover .nfh-bg{transform:scale(1.07)}
+.nfh-eclipse{position:absolute;left:50%;top:6%;width:min(46%,250px);height:auto;transform:translateX(-50%);animation:eclipse 7s ease-in-out infinite}
+@keyframes eclipse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.18)}}
+.nfh-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--panel-2) 0%,rgba(16,32,74,.5) 14%,transparent 40%),linear-gradient(0deg,rgba(0,0,0,.45),transparent 35%);pointer-events:none}
+.vf{position:absolute;width:30px;height:30px;border:3px solid rgba(255,255,255,.85);z-index:1}
+.vf.tl{top:22px;left:22px;border-right:0;border-bottom:0}.vf.tr{top:22px;right:22px;border-left:0;border-bottom:0}
+.vf.bl{bottom:22px;left:22px;border-right:0;border-top:0}.vf.br{bottom:22px;right:22px;border-left:0;border-top:0}
+.rec{position:absolute;top:30px;right:64px;z-index:1;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:#FFFFFF}
+.rec i{width:10px;height:10px;border-radius:50%;background:#FF3B3B;box-shadow:0 0 12px #FF3B3B;animation:blink 1.4s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+.app-row{display:flex;align-items:center;gap:16px;min-width:0}
 .app-icon{width:56px;height:56px;border-radius:14px;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 10px 24px -8px rgba(0,0,0,.8);flex:none}
-.game.feat .art{min-height:360px}
-@media (max-width:900px){.nfh-art::after{background:linear-gradient(0deg,var(--panel-2) 0%,transparent 45%)}.game.feat .art{min-height:300px}}
-@media (prefers-reduced-motion:reduce){.nfh-art img{transition:none}}
+.nfh-logo{margin:0;min-width:0;flex:1}
+.nfh-logo img{display:block;width:100%;max-width:420px;height:auto}
+.game.feat .art{min-height:420px}
+@media (max-width:900px){.nfh-scene::after{background:linear-gradient(0deg,var(--panel-2) 0%,transparent 40%)}.game.feat .art{min-height:340px}.nfh-bg{object-position:50% 70%}}
+@media (prefers-reduced-motion:reduce){.nfh-bg{transition:none}.nfh-eclipse,.rec i{animation:none}}
 
 @media (max-width:900px){
   .hero .wrap,.studio-grid,.cta{grid-template-columns:1fr}
@@ -313,7 +323,7 @@ footer .brand{color:var(--ink)}
       <article class="game feat">
         <div class="game-body">
           <div class="game-top"><span class="kind" data-i18n="nfhKind">Mobile · Survival</span><span class="status live" data-i18n="soon">Coming soon</span></div>
-          <div class="app-row"><img class="app-icon" src="nfh-icon-small.jpg" alt="" width="56" height="56"><h3>Not From Here</h3></div>
+          <div class="app-row"><img class="app-icon" src="nfh-icon-small.jpg" alt="" width="56" height="56"><h3 class="nfh-logo"><img src="nfh-title.png" alt="Not From Here. Observe. Survive. Evolve." width="731" height="182"></h3></div>
           <p data-i18n="nfhDesc">Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?</p>
           <ul class="specs">
             <li><b data-i18n="platform">Platform</b>Android · Google Play</li>
@@ -321,7 +331,12 @@ footer .brand{color:var(--ink)}
           </ul>
         </div>
         <div class="art">
-          <div class="nfh-art"><img src="nfh-icon.jpg" data-i18n-alt="nfhAlt" alt="Not From Here key art: a black eclipse with a glowing white corona inside a camera viewfinder, with a red recording dot" width="900" height="900" loading="lazy"></div>
+          <div class="nfh-scene">
+            <img class="nfh-bg" src="nfh-bg.webp" data-i18n-alt="nfhAlt" alt="Not From Here: a military base at night with a radar dish, floodlit towers and soldiers on wet tarmac, under a black eclipse" width="900" height="1599" loading="lazy">
+            <img class="nfh-eclipse" src="nfh-eclipse.webp" alt="" width="520" height="520" loading="lazy">
+            <span class="vf tl" aria-hidden="true"></span><span class="vf tr" aria-hidden="true"></span><span class="vf bl" aria-hidden="true"></span><span class="vf br" aria-hidden="true"></span>
+            <span class="rec" aria-hidden="true"><i></i>REC</span>
+          </div>
         </div>
       </article>
 
@@ -439,7 +454,7 @@ footer .brand{color:var(--ink)}
       p2t:"Design in the open",p2d:"Players test early builds on Discord and shape what the games become.",
       p3t:"Screens and tables",p3d:"Mobile games for the commute, card games for game night.",
       commLabel:"Community",commTitle:"Play with us.",commText:"Get early builds, vote on ideas and be the first to know when Not From Here launches.",
-      emailTitle:"Email",nfhAlt:"Not From Here key art: a black eclipse with a glowing white corona inside a camera viewfinder, with a red recording dot",
+      emailTitle:"Email",nfhAlt:"Not From Here: a military base at night with a radar dish, floodlit towers and soldiers on wet tarmac, under a black eclipse",
       lines:{1:"You go first. No pressure.",2:"Player 2 has joined the game.",3:"Not first, not last. Perfect.",4:"A good number for a card game.",5:"Almost full. Don't let them see you coming.",6:"Six: a full table in Blood and Ron."}},
     es:{brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
       heroLabel:"Estudio independiente · Rotterdam",heroTitleA:"Cada juego es una",heroTitleB:"nueva tirada.",
@@ -464,7 +479,7 @@ footer .brand{color:var(--ink)}
       p2t:"Diseñar en público",p2d:"Los jugadores prueban versiones tempranas en Discord y deciden en qué se convierten los juegos.",
       p3t:"Pantallas y mesas",p3d:"Juegos de móvil para el trayecto y juegos de cartas para la noche de juegos.",
       commLabel:"Comunidad",commTitle:"Juega con nosotros.",commText:"Consigue versiones tempranas, vota ideas y entérate antes que nadie de cuándo sale Not From Here.",
-      emailTitle:"Correo",nfhAlt:"Arte de Not From Here: un eclipse negro con una corona blanca brillante dentro del visor de una cámara, con un punto rojo de grabación",
+      emailTitle:"Correo",nfhAlt:"Not From Here: una base militar de noche con una antena de radar, torres iluminadas y soldados sobre el asfalto mojado, bajo un eclipse negro",
       lines:{1:"Empiezas tú. Sin presión.",2:"Jugador 2 se ha unido a la partida.",3:"Ni primero ni último. Perfecto.",4:"Buen número para una partida de cartas.",5:"Casi lleno. Que no te vean venir.",6:"Seis: mesa completa en Blood and Ron."}}
   };
   var lang="en",rolled=0,hint=document.getElementById('hint');
