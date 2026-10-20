@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Random Player Studio is an indie game studio in Rotterdam making mobile games and board games.">
+<meta name="theme-color" content="#050B1C">
 <link rel="canonical" href="https://randomplayerstudio.com/">
 <meta property="og:title" content="Random Player Studio">
 <meta property="og:description" content="Indie game studio in Rotterdam making mobile games and board games.">
@@ -11,128 +12,230 @@
 <meta property="og:image" content="https://randomplayerstudio.com/logo.png">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="logo-small.png">
-<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 <title>Random Player Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,500..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout: una mesa de juego. Hero con un dado que asigna tu número de jugador; los juegos son cartas con su ficha técnica. */
+/* Layout: noche de juego. Un "portal" luminoso con la mascota preside el hero; los juegos son paneles de cristal oscuro, cada uno con una ilustración propia de su mundo. Diseño oscuro deliberado (un solo tema). */
 :root{
-  --bg:#EEF3F8; --surface:#FFFFFF; --ink:#021539; --muted:#4F6180; --line:#D2DCE8;
-  --cobalt:#021539; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#0079C2;
-  --display:"Bagel Fat One", "Arial Black", system-ui, sans-serif;
-  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bg:#050B1C; --bg-2:#0A1532; --panel:#0C1937; --panel-2:#10204A;
+  --line:rgba(150,195,255,.14); --line-strong:rgba(150,195,255,.28);
+  --ink:#F2F6FF; --muted:#93A3C4; --faint:#5D6E92;
+  --brand:#00A8F0; --brand-2:#6AD3FF; --navy:#021539;
+  --display:"Archivo", "Arial Black", system-ui, sans-serif;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#020D24; --surface:#0A1D3D; --ink:#EAF2FB; --muted:#9DB0CC; --line:#1C3358;
-  --cobalt:#0B2A55; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#3FC0FF; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#020D24; --surface:#0A1D3D; --ink:#EAF2FB; --muted:#9DB0CC; --line:#1C3358;
-  --cobalt:#0B2A55; --sun:#00A8F0; --on-cobalt:#FFFFFF; --pip:#FFFFFF; --accent:#3FC0FF; color-scheme:dark}
-
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
-.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:60;background:rgba(5,11,28,.85)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
-h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
-.label{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:2px solid var(--brand-2);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);font-stretch:118%;font-weight:850;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;margin:0}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-2);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background:radial-gradient(900px 600px at 78% -10%, rgba(0,168,240,.18), transparent 60%),
+             radial-gradient(700px 500px at -10% 30%, rgba(0,90,200,.14), transparent 60%)}
+main,nav,footer{position:relative;z-index:1}
 
 /* Nav */
-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;font-size:1.05rem}
-.brand img{width:44px;height:44px;border-radius:12px;background:#FFFFFF;border:1px solid var(--line);display:block}
-.nav-right{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-weight:500;flex-wrap:wrap}
-nav ul a{text-decoration:none;color:var(--muted)}
+nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(5,11,28,.72);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--display);font-stretch:118%;font-weight:800;font-size:1rem;letter-spacing:.01em}
+.brand-badge{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#FFFFFF,#BFE9FF 70%,#7FD2FF);display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 6px 20px -6px rgba(0,168,240,.7)}
+.brand-badge img{width:32px;height:auto;margin-top:4px}
+.brand small{display:block;font-family:var(--mono);font-weight:500;font-stretch:100%;font-size:.62rem;letter-spacing:.2em;color:var(--muted);margin-top:2px}
+.nav-right{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-weight:500;font-size:.95rem}
+nav ul a{text-decoration:none;color:var(--muted);transition:color .2s}
 nav ul a:hover{color:var(--ink)}
-.lang{display:inline-flex;border:2px solid var(--ink);border-radius:999px;padding:2px;gap:2px}
-.lang button{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;border:none;background:transparent;color:var(--ink);padding:5px 10px;border-radius:999px;cursor:pointer}
+.lang{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;padding:3px;gap:2px}
+.lang button{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;border:none;background:transparent;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
-/* Hero */
-.hero .wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:48px;align-items:center;padding-block:48px 72px}
-.hero h1{font-size:clamp(2.8rem,8vw,5.6rem);letter-spacing:-.01em}
-.hero h1 .num{color:var(--accent);display:inline-block;min-width:1.3ch;font-variant-numeric:tabular-nums}
-.hero p{max-width:34ch;font-size:1.2rem;color:var(--muted);margin:20px 0 28px}
-.hero-text{min-width:0}
+/* Buttons */
 .btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--ink);font-family:var(--body);font-size:1rem;cursor:pointer;background:transparent;color:var(--ink);transition:transform .15s}
-.btn.primary{background:var(--ink);color:var(--bg)}
-.btn:hover{transform:translateY(-2px)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;border:1px solid var(--line-strong);color:var(--ink);background:rgba(255,255,255,.03);transition:transform .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--brand-2)}
+.btn.primary{background:linear-gradient(180deg,#22B8FF,#0093DA);border-color:transparent;color:#021539;box-shadow:0 10px 30px -10px rgba(0,168,240,.8),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.primary:hover{background:linear-gradient(180deg,#45C6FF,#0AA2EA)}
+.btn svg{width:18px;height:18px;flex:none}
 
-.table{display:flex;flex-direction:column;align-items:center;gap:18px}
-.die{width:min(220px,60vw);aspect-ratio:1;max-width:100%;border-radius:22%;background:var(--sun);border:none;cursor:pointer;
-  display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:16%;gap:6%;
-  box-shadow:0 14px 0 -2px color-mix(in srgb,var(--sun) 55%,#000), 0 30px 50px -20px rgba(0,0,0,.35);transform:rotate(-8deg);transition:transform .2s}
-.die:hover{transform:rotate(-4deg) translateY(-4px)}
-.die span{border-radius:50%;background:var(--pip);opacity:0;transform:scale(.4);transition:opacity .15s,transform .15s}
+/* Hero */
+.hero .wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:center;padding-block:72px 56px}
+.hero-text{min-width:0}
+.hero h1{font-size:clamp(2.9rem,7.4vw,5.8rem);margin:22px 0 0}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,#FFFFFF 10%,var(--brand-2) 55%,var(--brand) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:44ch;font-size:1.15rem;color:var(--muted);margin:24px 0 34px}
+
+.portal-wrap{position:relative;display:grid;place-items:center;min-width:0}
+.portal{position:relative;width:min(420px,82vw);aspect-ratio:1;max-width:100%}
+.portal .glow{position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,rgba(0,168,240,.45),transparent 62%);filter:blur(10px)}
+.portal .disc{position:absolute;inset:9%;border-radius:50%;background:radial-gradient(circle at 50% 30%,#FFFFFF 0%,#D7F1FF 45%,#88D6FF 100%);box-shadow:inset 0 -20px 50px rgba(0,110,200,.35),0 30px 80px -20px rgba(0,168,240,.6)}
+.portal .ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(150,210,255,.35);animation:spin 60s linear infinite}
+.portal .ring::before,.portal .ring::after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:var(--brand-2);box-shadow:0 0 16px var(--brand)}
+.portal .ring::before{top:12%;left:13%}
+.portal .ring::after{bottom:6%;right:28%;width:8px;height:8px}
+.portal img{position:absolute;left:50%;top:51%;width:60%;height:auto;transform:translate(-50%,-50%);filter:drop-shadow(0 18px 24px rgba(2,21,57,.35));animation:float 6s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-54%)}}
+
+.player-chip{position:absolute;right:max(0px,2%);bottom:6%;display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:16px;background:rgba(12,25,55,.85);border:1px solid var(--line-strong);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.die{width:44px;height:44px;border-radius:11px;background:linear-gradient(160deg,#2CC0FF,#0088CC);border:none;cursor:pointer;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:8px;gap:2px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 6px 14px -4px rgba(0,168,240,.8);transition:transform .2s}
+.die:hover{transform:rotate(-8deg) scale(1.05)}
+.die span{border-radius:50%;background:#FFFFFF;opacity:0;transform:scale(.3);transition:opacity .12s,transform .12s}
 .die span.on{opacity:1;transform:scale(1)}
 .die.rolling{animation:roll .55s cubic-bezier(.3,.7,.4,1)}
-@keyframes roll{0%{transform:rotate(-8deg)}35%{transform:rotate(200deg) scale(.88)}70%{transform:rotate(340deg) scale(1.05)}100%{transform:rotate(352deg)}}
-.die-hint{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-align:center}
+@keyframes roll{0%{transform:rotate(0)}40%{transform:rotate(220deg) scale(.85)}100%{transform:rotate(360deg)}}
+.chip-text{line-height:1.25;min-width:0}
+.chip-text b{display:block;font-family:var(--display);font-stretch:118%;font-weight:800;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.chip-text span{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:var(--muted);display:block;max-width:22ch}
+
+/* Stats strip */
+.strip{border-block:1px solid var(--line);background:rgba(10,21,50,.5)}
+.strip ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.strip li{padding:26px 22px;border-left:1px solid var(--line);min-width:0}
+.strip li:first-child{border-left:none;padding-left:0}
+.strip b{display:block;font-family:var(--display);font-stretch:118%;font-weight:800;font-size:1.7rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.strip span{font-size:.88rem;color:var(--muted)}
 
 /* Sections */
-section{padding-block:64px}
-.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
-.sec-head h2{font-size:clamp(2rem,5vw,3.2rem)}
+section{padding-block:100px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.sec-head h2{font-size:clamp(2.2rem,5vw,3.6rem);margin-top:14px}
+.sec-head p{max-width:40ch;color:var(--muted);margin:0}
 
-/* Cards */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0;position:relative}
-.card.feat{background:var(--cobalt);color:var(--on-cobalt);border-color:transparent}
-.card.feat .label,.card.feat .desc{color:inherit;opacity:.85}
-.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.suit{font-family:var(--display);font-size:1.6rem;line-height:1}
-.status{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
-.card.feat .status{background:var(--sun);color:#021539;border-color:var(--sun)}
-.card h3{font-size:1.9rem}
-.desc{color:var(--muted);margin:0}
-.stats{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:auto 0 0;padding-top:14px;border-top:1px dashed color-mix(in srgb,currentColor 35%,transparent);font-size:.92rem}
-.stats dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.7;padding-top:3px}
-.stats dd{margin:0;font-weight:600}
+/* Game panels */
+.games{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.game{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel-2),var(--panel));display:grid;min-width:0;transition:border-color .25s,transform .25s}
+.game:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+.game.feat{grid-column:1/-1;grid-template-columns:1.05fr 1fr}
+.game-body{padding:34px;display:flex;flex-direction:column;gap:16px;min-width:0;position:relative;z-index:1}
+.game-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.kind{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border-radius:999px;border:1px solid var(--line-strong);color:var(--muted);display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.status.live{color:var(--brand-2);border-color:rgba(106,211,255,.4);background:rgba(0,168,240,.08)}
+.status.live::before{box-shadow:0 0 10px var(--brand)}
+.game h3{font-size:clamp(1.9rem,3.6vw,2.6rem)}
+.game.feat h3{font-size:clamp(2.4rem,5vw,3.8rem)}
+.game p{color:var(--muted);margin:0;max-width:48ch}
+.specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:10px;list-style:none;padding-left:0}
+.specs li{font-size:.84rem;padding:7px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.specs li b{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-right:6px}
 
-/* About */
-.about{background:var(--surface);border-block:1px solid var(--line)}
-.about .wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
-.about h2{font-size:clamp(2rem,5vw,3.2rem)}
-.about p{margin:0 0 16px;max-width:60ch}
-.about-logo{width:min(260px,70%);aspect-ratio:1;border-radius:28px;background:#FFFFFF;border:1px solid var(--line);margin-top:28px;display:block}
-.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;list-style:none;padding:0}
-.facts li{font-family:var(--mono);font-size:.8rem;padding:7px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+.art{position:relative;min-height:260px;min-width:0}
+.game:not(.feat) .art{min-height:190px;border-bottom:1px solid var(--line);order:-1}
+.game:not(.feat){grid-template-rows:auto 1fr}
+
+/* NFH radar */
+.radar{position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,rgba(0,168,240,.16),transparent 65%)}
+.radar .rings{position:absolute;left:50%;top:55%;width:min(360px,90%);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:repeating-radial-gradient(circle,transparent 0 44px,rgba(106,211,255,.18) 44px 45px)}
+.radar .sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(106,211,255,.35),transparent 22%);animation:spin 5s linear infinite}
+.radar .ufo{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 6px rgba(255,255,255,.12),0 0 24px #FFFFFF}
+.radar .c{position:absolute;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink);padding:4px 8px;border-radius:7px;background:rgba(5,11,28,.8);border:1px solid var(--line-strong);transform:translate(-50%,-50%);white-space:nowrap}
+.radar .c::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#FF6B6B;margin-right:6px;vertical-align:1px;box-shadow:0 0 8px #FF6B6B}
+.radar .c.home::before{background:var(--brand-2);box-shadow:0 0 8px var(--brand)}
+
+/* Blood and Ron fan */
+.fan{position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(180,40,50,.28),transparent 60%)}
+.fan .card{position:absolute;left:50%;bottom:-36px;width:92px;height:132px;border-radius:10px;background:linear-gradient(160deg,#F4ECDD,#D9CBB0);border:3px solid #F9F4EA;box-shadow:0 14px 30px -10px rgba(0,0,0,.7);transform-origin:50% 120%;display:grid;place-items:center;font-size:2.2rem;color:#7A1B22}
+.fan .card:nth-child(1){transform:translateX(-50%) rotate(-24deg)}
+.fan .card:nth-child(2){transform:translateX(-50%) rotate(-8deg)}
+.fan .card:nth-child(3){transform:translateX(-50%) rotate(8deg);color:#1A1A1A}
+.fan .card:nth-child(4){transform:translateX(-50%) rotate(24deg)}
+.game:hover .fan .card:nth-child(1){transform:translateX(-50%) rotate(-30deg)}
+.game:hover .fan .card:nth-child(4){transform:translateX(-50%) rotate(30deg)}
+.fan .card{transition:transform .35s}
+
+/* Apothecary */
+.apo{position:absolute;inset:0;background:radial-gradient(circle at 50% 110%,rgba(70,220,150,.22),transparent 60%);display:grid;place-items:end center}
+.apo svg{width:150px;height:auto;margin-bottom:-6px;overflow:visible}
+.bubble{animation:rise 4s ease-in infinite;opacity:0}
+.bubble:nth-of-type(2){animation-delay:1.3s}
+.bubble:nth-of-type(3){animation-delay:2.6s}
+@keyframes rise{0%{opacity:0;transform:translateY(0)}20%{opacity:.9}100%{opacity:0;transform:translateY(-70px)}}
+
+/* Studio */
+.studio{background:linear-gradient(180deg,transparent,rgba(10,21,50,.6) 30%,rgba(10,21,50,.6) 70%,transparent)}
+.studio-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+.studio h2{font-size:clamp(2.2rem,5vw,3.6rem);margin-top:14px}
+.studio-copy p{color:var(--muted);margin:0 0 18px;max-width:58ch}
+.studio-copy p:first-child{color:var(--ink);font-size:1.2rem}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.pillar{padding:26px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.02);min-width:0}
+.pillar i{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:rgba(0,168,240,.12);border:1px solid rgba(106,211,255,.3);color:var(--brand-2);font-style:normal;font-family:var(--display);font-weight:800;margin-bottom:18px}
+.pillar h3{font-size:1.25rem;font-stretch:112%;margin-bottom:8px}
+.pillar p{margin:0;color:var(--muted);font-size:.95rem}
 
 /* Community */
-.socials{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media (max-width:1000px) and (min-width:861px){.socials{grid-template-columns:repeat(2,1fr)}}
-.social{display:flex;flex-direction:column;gap:6px;padding:22px;border-radius:16px;border:2px solid var(--ink);text-decoration:none;transition:background .15s,color .15s}
-.social:hover{background:var(--ink);color:var(--bg)}
-.social strong{font-family:var(--display);font-weight:400;font-size:1.6rem}
-.social span{font-family:var(--mono);font-size:.82rem;opacity:.75;overflow-wrap:anywhere}
+.cta{position:relative;overflow:hidden;border-radius:32px;border:1px solid var(--line-strong);padding:64px 48px;background:radial-gradient(700px 360px at 85% 0%,rgba(0,168,240,.35),transparent 65%),linear-gradient(180deg,var(--panel-2),var(--panel));display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.cta h2{font-size:clamp(2.4rem,5.5vw,4rem);margin-top:14px}
+.cta p{color:var(--muted);margin:18px 0 30px;max-width:44ch}
+.cta-copy{min-width:0}
+.links{display:grid;gap:12px;min-width:0}
+.link{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border-radius:16px;border:1px solid var(--line);background:rgba(5,11,28,.45);text-decoration:none;transition:border-color .2s,background .2s}
+.link:hover{border-color:var(--brand-2);background:rgba(0,168,240,.08)}
+.link div{min-width:0}
+.link strong{display:block;font-weight:600}
+.link span{font-family:var(--mono);font-size:.78rem;color:var(--muted);overflow-wrap:anywhere}
+.link svg{width:18px;height:18px;flex:none;color:var(--muted)}
 
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:32px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-block:36px;color:var(--faint);font-size:.88rem}
+footer .brand{color:var(--ink)}
 
-@media (max-width:860px){
-  .hero .wrap,.about .wrap{grid-template-columns:1fr;gap:36px}
-  .cards,.socials{grid-template-columns:1fr}
-  .table{order:-1}
-  nav ul{gap:16px;font-size:.95rem}
-  .nav-right{gap:16px}
+@media (max-width:900px){
+  .hero .wrap,.studio-grid,.cta{grid-template-columns:1fr}
+  .hero .wrap{gap:28px;padding-block:40px 48px}
+  .portal-wrap{order:-1}
+  .portal{width:min(300px,74vw)}
+  .portal-wrap{padding-bottom:44px}
+  .player-chip{right:50%;bottom:0;transform:translateX(50%)}
+  .games{grid-template-columns:1fr}
+  .game.feat{grid-template-columns:1fr}
+  .game.feat .art{order:-1;border-bottom:1px solid var(--line)}
+  .pillars{grid-template-columns:1fr}
+  .strip ul{grid-template-columns:repeat(2,1fr)}
+  .strip li:nth-child(3){border-left:none;padding-left:0}
+  .strip li:nth-child(n+3){border-top:1px solid var(--line)}
+  .cta{padding:40px 24px;border-radius:24px}
+  section{padding-block:72px}
+  nav ul{display:none}
 }
-@media (prefers-reduced-motion:reduce){.die.rolling{animation:none}.btn,.die,.social{transition:none}}
+@media (max-width:420px){
+  .game-body{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .portal .ring,.portal img,.radar .sweep,.bubble,.die.rolling{animation:none}
+  .bubble{opacity:.7}
+  .btn,.game,.fan .card,.die{transition:none}
+}
 </style>
 </head>
 <body>
 
+<div class="grain" aria-hidden="true"></div>
+
 <nav>
   <div class="wrap">
-    <a class="brand" href="#inicio" data-i18n-aria="brandAria" aria-label="Random Player Studio, home"><img src="logo-small.png" alt="" width="44" height="44">Random Player Studio</a>
+    <a class="brand" href="#top" data-i18n-aria="brandAria" aria-label="Random Player Studio, home">
+      <span class="brand-badge"><img src="mascot.png" alt="" width="32" height="28"></span>
+      <span>RANDOM PLAYER<small>STUDIO</small></span>
+    </a>
     <div class="nav-right">
       <ul>
-        <li><a href="#juegos" data-i18n="navGames">Games</a></li>
-        <li><a href="#estudio" data-i18n="navStudio">Studio</a></li>
-        <li><a href="#comunidad" data-i18n="navCommunity">Community</a></li>
+        <li><a href="#games" data-i18n="navGames">Games</a></li>
+        <li><a href="#studio" data-i18n="navStudio">Studio</a></li>
+        <li><a href="#community" data-i18n="navCommunity">Community</a></li>
       </ul>
       <div class="lang" role="group" aria-label="Language / Idioma">
         <button type="button" id="lang-en" data-lang="en" aria-pressed="true" lang="en">EN</button>
@@ -142,103 +245,169 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 </nav>
 
-<header class="hero" id="inicio">
+<main id="top">
+<header class="hero">
   <div class="wrap">
     <div class="hero-text">
-      <span class="label" data-i18n="heroLabel">Indie studio · Rotterdam</span>
-      <h1><span data-i18n="heroTitle">Today you're player</span> <span class="num" id="num">4</span>.</h1>
-      <p data-i18n="heroText">We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.</p>
+      <span class="eyebrow" data-i18n="heroLabel">Independent game studio · Rotterdam</span>
+      <h1><span data-i18n="heroTitleA">Every game is a</span> <em data-i18n="heroTitleB">new roll.</em></h1>
+      <p class="lead" data-i18n="heroText">We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.</p>
       <div class="btns">
-        <a class="btn primary" href="#juegos" data-i18n="ctaGames">See the games</a>
-        <a class="btn" href="#comunidad" data-i18n="ctaCommunity">Join the community</a>
+        <a class="btn primary" href="#games"><span data-i18n="ctaGames">Explore our games</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn" href="https://discord.gg/3c8QXdY3s" target="_blank" rel="noopener"><span data-i18n="ctaDiscord">Join the Discord</span></a>
       </div>
     </div>
-    <div class="table">
-      <button class="die" id="die" type="button" data-i18n-aria="dieAria" aria-label="Roll the die">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </button>
-      <div class="die-hint" id="hint" aria-live="polite">Tap the die to roll</div>
+    <div class="portal-wrap">
+      <div class="portal">
+        <div class="glow"></div>
+        <div class="ring"></div>
+        <div class="disc"></div>
+        <img src="mascot.png" data-i18n-alt="mascotAlt" alt="Random Player Studio mascot: an astronaut with headphones playing with a controller in an armchair" width="496" height="436">
+      </div>
+      <div class="player-chip">
+        <button class="die" id="die" type="button" data-i18n-aria="dieAria" aria-label="Roll the die">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </button>
+        <div class="chip-text">
+          <b><span data-i18n="playerWord">Player</span> <span id="num">04</span></b>
+          <span id="hint" aria-live="polite">Tap the die to roll</span>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
-<section id="juegos">
+<div class="strip">
+  <div class="wrap">
+    <ul>
+      <li><b>03</b><span data-i18n="stat1">games in development</span></li>
+      <li><b>Android</b><span data-i18n="stat2">first launch platform</span></li>
+      <li><b>2–6</b><span data-i18n="stat3">players at the table</span></li>
+      <li><b>Unity</b><span data-i18n="stat4">engine for every game</span></li>
+    </ul>
+  </div>
+</div>
+
+<section id="games">
   <div class="wrap">
     <div class="sec-head">
-      <h2 data-i18n="gamesTitle">Our games</h2>
-      <span class="label" data-i18n="gamesCount">3 projects on the table</span>
+      <div>
+        <span class="eyebrow" data-i18n="gamesLabel">On the table</span>
+        <h2 data-i18n="gamesTitle">Our games</h2>
+      </div>
+      <p data-i18n="gamesIntro">One mobile game close to launch, one board game heading to Kickstarter and one prototype brewing on PC.</p>
     </div>
-    <div class="cards">
-      <article class="card feat">
-        <div class="card-top"><span class="suit" aria-hidden="true">★</span><span class="status" data-i18n="soon">Coming soon</span></div>
-        <h3>Not From Here</h3>
-        <p class="desc" data-i18n="nfhDesc">Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?</p>
-        <dl class="stats">
-          <dt data-i18n="genre">Genre</dt><dd data-i18n="nfhGenre">Survival</dd>
-          <dt data-i18n="platform">Platform</dt><dd>Android · Google Play</dd>
-          <dt data-i18n="controls">Controls</dt><dd data-i18n="nfhControls">Touch, one hand</dd>
-        </dl>
+
+    <div class="games">
+      <article class="game feat">
+        <div class="game-body">
+          <div class="game-top"><span class="kind" data-i18n="nfhKind">Mobile · Survival</span><span class="status live" data-i18n="soon">Coming soon</span></div>
+          <h3>Not From Here</h3>
+          <p data-i18n="nfhDesc">Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?</p>
+          <ul class="specs">
+            <li><b data-i18n="platform">Platform</b>Android · Google Play</li>
+            <li><b data-i18n="controls">Controls</b><span data-i18n="nfhControls">Touch, one hand</span></li>
+          </ul>
+        </div>
+        <div class="art" aria-hidden="true">
+          <div class="radar">
+            <div class="rings"><div class="sweep"></div></div>
+            <div class="ufo"></div>
+            <span class="c home" style="left:44%;top:63%">ES</span>
+            <span class="c" style="left:58%;top:41%">FR</span>
+            <span class="c" style="left:72%;top:58%">DE</span>
+            <span class="c" style="left:26%;top:38%">US</span>
+            <span class="c" style="left:80%;top:30%">JP</span>
+            <span class="c" style="left:30%;top:80%">CN</span>
+          </div>
+        </div>
       </article>
-      <article class="card">
-        <div class="card-top"><span class="suit" aria-hidden="true">♠</span><span class="status" data-i18n="inDev">In development</span></div>
-        <h3>Blood and Ron</h3>
-        <p class="desc" data-i18n="barDesc">A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.</p>
-        <dl class="stats">
-          <dt data-i18n="genre">Genre</dt><dd data-i18n="barGenre">Strategy card game</dd>
-          <dt data-i18n="players">Players</dt><dd>2–6</dd>
-          <dt data-i18n="format">Format</dt><dd data-i18n="barFormat">Physical game · Kickstarter</dd>
-        </dl>
+
+      <article class="game">
+        <div class="art" aria-hidden="true">
+          <div class="fan"><div class="card">☠</div><div class="card">♥</div><div class="card">♠</div><div class="card">⚓</div></div>
+        </div>
+        <div class="game-body">
+          <div class="game-top"><span class="kind" data-i18n="barKind">Board game · Cards</span><span class="status" data-i18n="inDev">In development</span></div>
+          <h3>Blood and Ron</h3>
+          <p data-i18n="barDesc">A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.</p>
+          <ul class="specs">
+            <li><b data-i18n="players">Players</b>2–6</li>
+            <li><b data-i18n="format">Format</b><span data-i18n="barFormat">Physical · Kickstarter</span></li>
+          </ul>
+        </div>
       </article>
-      <article class="card">
-        <div class="card-top"><span class="suit" aria-hidden="true">♣</span><span class="status" data-i18n="proto">Prototype</span></div>
-        <h3 data-i18n="botTitle">The Apothecary</h3>
-        <p class="desc" data-i18n="botDesc">Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.</p>
-        <dl class="stats">
-          <dt data-i18n="genre">Genre</dt><dd data-i18n="botGenre">Management · Crafting</dd>
-          <dt data-i18n="platform">Platform</dt><dd>PC</dd>
-          <dt data-i18n="engine">Engine</dt><dd>Unity 3D</dd>
-        </dl>
+
+      <article class="game">
+        <div class="art" aria-hidden="true">
+          <div class="apo">
+            <svg viewBox="0 0 150 170">
+              <circle class="bubble" cx="70" cy="60" r="5" fill="#9BF5C9"/>
+              <circle class="bubble" cx="84" cy="70" r="3.5" fill="#9BF5C9"/>
+              <circle class="bubble" cx="76" cy="66" r="4" fill="#9BF5C9"/>
+              <path d="M58 70h34v28l30 52a10 10 0 0 1-9 15H37a10 10 0 0 1-9-15l30-52z" fill="rgba(255,255,255,.08)" stroke="rgba(220,255,240,.7)" stroke-width="3"/>
+              <path d="M43 128h64l12 22a8 8 0 0 1-7 12H38a8 8 0 0 1-7-12z" fill="#3DDC97" opacity=".85"/>
+              <rect x="52" y="60" width="46" height="12" rx="4" fill="#C9A26B"/>
+            </svg>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="game-top"><span class="kind" data-i18n="botKind">PC · Management</span><span class="status" data-i18n="proto">Prototype</span></div>
+          <h3 data-i18n="botTitle">The Apothecary</h3>
+          <p data-i18n="botDesc">Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.</p>
+          <ul class="specs">
+            <li><b data-i18n="engine">Engine</b>Unity 3D</li>
+            <li><b data-i18n="genre">Genre</b><span data-i18n="botGenre">Crafting · Shop</span></li>
+          </ul>
+        </div>
       </article>
     </div>
   </div>
 </section>
 
-<section class="about" id="estudio">
+<section class="studio" id="studio">
   <div class="wrap">
-    <div>
-      <span class="label" data-i18n="aboutLabel">The studio</span>
-      <h2 data-i18n="aboutTitle">One designer, lots of dice.</h2>
-      <img class="about-logo" src="logo.png" data-i18n-alt="logoAlt" alt="Random Player Studio logo: an astronaut with headphones playing with a controller in an armchair" width="352" height="352">
+    <div class="studio-grid">
+      <div>
+        <span class="eyebrow" data-i18n="aboutLabel">The studio</span>
+        <h2 data-i18n="aboutTitle">One designer, lots of dice.</h2>
+      </div>
+      <div class="studio-copy">
+        <p data-i18n="aboutP1">Random Player Studio is an independent studio based in Rotterdam, born from a love of testing ideas fast.</p>
+        <p data-i18n="aboutP2">We make simple mobile games and board games you can learn in five minutes and keep playing for years. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.</p>
+      </div>
     </div>
-    <div>
-      <p data-i18n="aboutP1">Random Player Studio is an independent studio based in Rotterdam. It was born from a love of testing ideas fast: simple mobile games and board games you can learn in five minutes and keep playing for years.</p>
-      <p data-i18n="aboutP2">We design in the open. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.</p>
-      <ul class="facts">
-        <li>Unity</li><li data-i18n="factMix">Mobile + tabletop</li><li>Rotterdam, NL</li><li data-i18n="factSince">Since 2026</li>
-      </ul>
+    <div class="pillars">
+      <div class="pillar"><i>01</i><h3 data-i18n="p1t">Prototype fast</h3><p data-i18n="p1d">Ideas get playable in days, not months. If it isn't fun, we roll again.</p></div>
+      <div class="pillar"><i>02</i><h3 data-i18n="p2t">Design in the open</h3><p data-i18n="p2d">Players test early builds on Discord and shape what the games become.</p></div>
+      <div class="pillar"><i>03</i><h3 data-i18n="p3t">Screens and tables</h3><p data-i18n="p3d">Mobile games for the commute, card games for game night.</p></div>
     </div>
   </div>
 </section>
 
-<section id="comunidad">
+<section id="community">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 data-i18n="commTitle">Play with us</h2>
-      <span class="label" data-i18n="commLabel">Prototypes, betas and news</span>
-    </div>
-    <div class="socials">
-      <a class="social" href="https://discord.gg/3c8QXdY3s" id="discord" target="_blank" rel="noopener"><strong>Discord</strong><span data-i18n="discordText">A channel per game · tests and feedback</span></a>
-      <a class="social" href="https://www.tiktok.com/@randomplayerstudio" target="_blank" rel="noopener"><strong>TikTok</strong><span>@randomplayerstudio</span></a>
-      <a class="social" href="https://www.linkedin.com/company/random-player-studios" target="_blank" rel="noopener"><strong>LinkedIn</strong><span>Random Player Studio</span></a>
-      <a class="social" href="mailto:contact@randomplayerstudio.com"><strong data-i18n="emailTitle">Email</strong><span>contact@randomplayerstudio.com</span></a>
+    <div class="cta">
+      <div class="cta-copy">
+        <span class="eyebrow" data-i18n="commLabel">Community</span>
+        <h2 data-i18n="commTitle">Play with us.</h2>
+        <p data-i18n="commText">Get early builds, vote on ideas and be the first to know when Not From Here launches.</p>
+        <a class="btn primary" href="https://discord.gg/3c8QXdY3s" target="_blank" rel="noopener"><span data-i18n="ctaDiscord">Join the Discord</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="links">
+        <a class="link" href="https://www.tiktok.com/@randomplayerstudio" target="_blank" rel="noopener"><div><strong>TikTok</strong><span>@randomplayerstudio</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        <a class="link" href="https://www.linkedin.com/company/random-player-studios" target="_blank" rel="noopener"><div><strong>LinkedIn</strong><span>Random Player Studio</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        <a class="link" href="mailto:contact@randomplayerstudio.com"><div><strong data-i18n="emailTitle">Email</strong><span>contact@randomplayerstudio.com</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+      </div>
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Random Player Studio · Rotterdam · contact@randomplayerstudio.com</span>
-    <span data-i18n="footer">Made with dice and Unity</span>
+    <a class="brand" href="#top"><span class="brand-badge"><img src="mascot.png" alt="" width="32" height="28"></span><span>RANDOM PLAYER<small>STUDIO</small></span></a>
+    <span>© 2026 Random Player Studio · Rotterdam, NL</span>
   </div>
 </footer>
 
@@ -246,46 +415,57 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 (function(){
   var T={
     en:{brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
-      heroLabel:"Indie studio · Rotterdam",heroTitle:"Today you're player",
+      heroLabel:"Independent game studio · Rotterdam",heroTitleA:"Every game is a",heroTitleB:"new roll.",
       heroText:"We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.",
-      ctaGames:"See the games",ctaCommunity:"Join the community",dieAria:"Roll the die",hint:"Tap the die to roll",
-      gamesTitle:"Our games",gamesCount:"3 projects on the table",soon:"Coming soon",inDev:"In development",proto:"Prototype",
-      nfhDesc:"Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?",
-      genre:"Genre",platform:"Platform",controls:"Controls",players:"Players",format:"Format",engine:"Engine",
-      nfhGenre:"Survival",nfhControls:"Touch, one hand",
-      barDesc:"A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.",
-      barGenre:"Strategy card game",barFormat:"Physical game · Kickstarter",
-      botTitle:"The Apothecary",botDesc:"Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.",
-      botGenre:"Management · Crafting",
+      ctaGames:"Explore our games",ctaDiscord:"Join the Discord",dieAria:"Roll the die",playerWord:"Player",hint:"Tap the die to roll",
+      mascotAlt:"Random Player Studio mascot: an astronaut with headphones playing with a controller in an armchair",
+      stat1:"games in development",stat2:"first launch platform",stat3:"players at the table",stat4:"engine for every game",
+      gamesLabel:"On the table",gamesTitle:"Our games",
+      gamesIntro:"One mobile game close to launch, one board game heading to Kickstarter and one prototype brewing on PC.",
+      soon:"Coming soon",inDev:"In development",proto:"Prototype",
+      nfhKind:"Mobile · Survival",nfhDesc:"Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?",
+      platform:"Platform",controls:"Controls",players:"Players",format:"Format",engine:"Engine",genre:"Genre",
+      nfhControls:"Touch, one hand",
+      barKind:"Board game · Cards",barDesc:"A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.",
+      barFormat:"Physical · Kickstarter",
+      botKind:"PC · Management",botTitle:"The Apothecary",botDesc:"Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.",
+      botGenre:"Crafting · Shop",
       aboutLabel:"The studio",aboutTitle:"One designer, lots of dice.",
-      logoAlt:"Random Player Studio logo: an astronaut with headphones playing with a controller in an armchair",
-      aboutP1:"Random Player Studio is an independent studio based in Rotterdam. It was born from a love of testing ideas fast: simple mobile games and board games you can learn in five minutes and keep playing for years.",
-      aboutP2:"We design in the open. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.",
-      factMix:"Mobile + tabletop",factSince:"Since 2026",commTitle:"Play with us",commLabel:"Prototypes, betas and news",
-      discordText:"A channel per game · tests and feedback",emailTitle:"Email",footer:"Made with dice and Unity",
+      aboutP1:"Random Player Studio is an independent studio based in Rotterdam, born from a love of testing ideas fast.",
+      aboutP2:"We make simple mobile games and board games you can learn in five minutes and keep playing for years. Every game has its own channel on Discord, where we share prototypes, ask for feedback and look for testers.",
+      p1t:"Prototype fast",p1d:"Ideas get playable in days, not months. If it isn't fun, we roll again.",
+      p2t:"Design in the open",p2d:"Players test early builds on Discord and shape what the games become.",
+      p3t:"Screens and tables",p3d:"Mobile games for the commute, card games for game night.",
+      commLabel:"Community",commTitle:"Play with us.",commText:"Get early builds, vote on ideas and be the first to know when Not From Here launches.",
+      emailTitle:"Email",
       lines:{1:"You go first. No pressure.",2:"Player 2 has joined the game.",3:"Not first, not last. Perfect.",4:"A good number for a card game.",5:"Almost full. Don't let them see you coming.",6:"Six: a full table in Blood and Ron."}},
     es:{brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
-      heroLabel:"Estudio indie · Rotterdam",heroTitle:"Hoy eres el jugador",
+      heroLabel:"Estudio independiente · Rotterdam",heroTitleA:"Cada juego es una",heroTitleB:"nueva tirada.",
       heroText:"Hacemos juegos para móvil y juegos de mesa. Partidas cortas, ideas raras y siempre un poco de azar.",
-      ctaGames:"Ver los juegos",ctaCommunity:"Únete a la comunidad",dieAria:"Tirar el dado",hint:"Toca el dado para tirar",
-      gamesTitle:"Nuestros juegos",gamesCount:"3 proyectos en la mesa",soon:"Próximamente",inDev:"En desarrollo",proto:"Prototipo",
-      nfhDesc:"Algo que no es de este planeta llega a España. Cada oleada, otro país se suma a la caza: Francia, Alemania, Estados Unidos, Japón, China… ¿Hasta dónde llegas?",
-      genre:"Género",platform:"Plataforma",controls:"Control",players:"Jugadores",format:"Formato",engine:"Motor",
-      nfhGenre:"Supervivencia",nfhControls:"Táctil, una mano",
-      barDesc:"Juego de cartas de piratas en el Caribe. Elige entre diez piratas históricos, como Barbanegra o Mary Read, negocia, traiciona y quédate con el tesoro.",
-      barGenre:"Cartas de estrategia",barFormat:"Juego físico · Kickstarter",
-      botTitle:"El Boticario",botDesc:"Acompañas a los grupos del gremio a las mazmorras, recoges ingredientes, preparas pociones y las vendes en tu propia tienda. Nombre provisional.",
-      botGenre:"Gestión · Crafteo",
+      ctaGames:"Descubre nuestros juegos",ctaDiscord:"Únete al Discord",dieAria:"Tirar el dado",playerWord:"Jugador",hint:"Toca el dado para tirar",
+      mascotAlt:"Mascota de Random Player Studio: un astronauta con cascos jugando con un mando en un sillón",
+      stat1:"juegos en desarrollo",stat2:"primera plataforma de lanzamiento",stat3:"jugadores en la mesa",stat4:"motor de todos los juegos",
+      gamesLabel:"En la mesa",gamesTitle:"Nuestros juegos",
+      gamesIntro:"Un juego para móvil a punto de salir, un juego de mesa camino de Kickstarter y un prototipo cociéndose en PC.",
+      soon:"Próximamente",inDev:"En desarrollo",proto:"Prototipo",
+      nfhKind:"Móvil · Supervivencia",nfhDesc:"Algo que no es de este planeta llega a España. Cada oleada, otro país se suma a la caza: Francia, Alemania, Estados Unidos, Japón, China… ¿Hasta dónde llegas?",
+      platform:"Plataforma",controls:"Control",players:"Jugadores",format:"Formato",engine:"Motor",genre:"Género",
+      nfhControls:"Táctil, una mano",
+      barKind:"Juego de mesa · Cartas",barDesc:"Juego de cartas de piratas en el Caribe. Elige entre diez piratas históricos, como Barbanegra o Mary Read, negocia, traiciona y quédate con el tesoro.",
+      barFormat:"Físico · Kickstarter",
+      botKind:"PC · Gestión",botTitle:"El Boticario",botDesc:"Acompañas a los grupos del gremio a las mazmorras, recoges ingredientes, preparas pociones y las vendes en tu propia tienda. Nombre provisional.",
+      botGenre:"Crafteo · Tienda",
       aboutLabel:"El estudio",aboutTitle:"Un diseñador, muchos dados.",
-      logoAlt:"Logo de Random Player Studio: un astronauta con cascos jugando con un mando en un sillón",
-      aboutP1:"Random Player Studio es un estudio independiente con base en Rotterdam. Nace de las ganas de probar ideas rápido: juegos sencillos para el móvil y juegos de mesa que se explican en cinco minutos y se juegan durante años.",
-      aboutP2:"Diseñamos en público. Cada juego tiene su propio canal en Discord, donde compartimos prototipos, pedimos opiniones y buscamos testers.",
-      factMix:"Móvil + mesa",factSince:"Desde 2026",commTitle:"Juega con nosotros",commLabel:"Prototipos, betas y novedades",
-      discordText:"Un canal por juego · tests y feedback",emailTitle:"Correo",footer:"Hecho con dados y Unity",
+      aboutP1:"Random Player Studio es un estudio independiente con base en Rotterdam, nacido de las ganas de probar ideas rápido.",
+      aboutP2:"Hacemos juegos sencillos para móvil y juegos de mesa que se aprenden en cinco minutos y se juegan durante años. Cada juego tiene su propio canal en Discord, donde compartimos prototipos, pedimos opiniones y buscamos testers.",
+      p1t:"Prototipar rápido",p1d:"Las ideas se pueden jugar en días, no en meses. Si no es divertido, volvemos a tirar.",
+      p2t:"Diseñar en público",p2d:"Los jugadores prueban versiones tempranas en Discord y deciden en qué se convierten los juegos.",
+      p3t:"Pantallas y mesas",p3d:"Juegos de móvil para el trayecto y juegos de cartas para la noche de juegos.",
+      commLabel:"Comunidad",commTitle:"Juega con nosotros.",commText:"Consigue versiones tempranas, vota ideas y entérate antes que nadie de cuándo sale Not From Here.",
+      emailTitle:"Correo",
       lines:{1:"Empiezas tú. Sin presión.",2:"Jugador 2 se ha unido a la partida.",3:"Ni primero ni último. Perfecto.",4:"Buen número para una partida de cartas.",5:"Casi lleno. Que no te vean venir.",6:"Seis: mesa completa en Blood and Ron."}}
   };
-  var lang="en",rolled=0;
-  var hint=document.getElementById('hint');
+  var lang="en",rolled=0,hint=document.getElementById('hint');
   function setLang(l){
     if(!T[l])return; lang=l; var d=T[l];
     document.documentElement.lang=l;
@@ -306,7 +486,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   die.addEventListener('click',function(){
     var n=1+Math.floor(Math.random()*6);
     die.classList.remove('rolling');void die.offsetWidth;die.classList.add('rolling');
-    var t=0,iv=setInterval(function(){show(1+Math.floor(Math.random()*6));if(++t>4){clearInterval(iv);show(n);num.textContent=n;rolled=n;hint.textContent=T[lang].lines[n];}},90);
+    var t=0,iv=setInterval(function(){show(1+Math.floor(Math.random()*6));if(++t>4){clearInterval(iv);show(n);num.textContent='0'+n;rolled=n;hint.textContent=T[lang].lines[n];}},90);
   });
 })();
 </script>
