@@ -46,12 +46,14 @@ async function handleTester(request, env) {
     }],
   };
 
-  const r = await fetch(env.DISCORD_WEBHOOK_URL, {
+  // Discord ya no acepta bien el dominio antiguo discordapp.com: lo normalizamos.
+  const hook = String(env.DISCORD_WEBHOOK_URL).trim().replace("://discordapp.com/", "://discord.com/");
+  const r = await fetch(hook, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(payload),
   });
-  if (!r.ok) return json({ error: "discord" }, 502);
+  if (!r.ok) return json({ error: "discord_" + r.status }, 502);
   return json({ ok: true });
 }
 

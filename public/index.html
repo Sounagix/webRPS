@@ -596,9 +596,9 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       if(!data.consent){msg.textContent=d.tqErrConsent;return;}
       sub.disabled=true; sub.firstElementChild.textContent=d.tqSending;
       fetch('/api/tester',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)})
-        .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok)throw new Error((j&&j.error)||r.status);return j;});})
         .then(function(){form.hidden=true;done.hidden=false;})
-        .catch(function(){msg.textContent=d.tqErrSend;})
+        .catch(function(err){msg.textContent=d.tqErrSend+' ('+err.message+')';})
         .then(function(){sub.disabled=false;sub.firstElementChild.textContent=d.tqSend;});
     });
   }
