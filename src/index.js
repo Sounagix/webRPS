@@ -48,12 +48,27 @@ async function handleTester(request, env) {
 
   // Discord ya no acepta bien el dominio antiguo discordapp.com: lo normalizamos.
   const hook = String(env.DISCORD_WEBHOOK_URL).trim().replace("://discordapp.com/", "://discord.com/");
-  const r = await fetch(hook, {
+  const send = (body) => fetch(hook, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
-  if (!r.ok) return json({ error: "discord_" + r.status }, 502);
+  let r = await send(payload);
+  let detail = "";
+  if (!r.ok) {
+    detail = await r.text();
+    // Los canales de tipo Foro exigen crear un hilo: cada tester abre su propio post.
+    if (r.status === 400 && /thread_name|220001/.test(detail)) {
+      r = await send({ ...payload, thread_name: ("Tester · " + (clean(d.name, 60) || email)).slice(0, 100) });
+      if (!r.ok) detail = await r.text();
+    }
+  }
+  if (!r.ok) {
+    console.log("Discord error", r.status, detail);
+    let code = "";
+    try { code = JSON.parse(detail).code ?? ""; } catch {}
+    return json({ error: "discord_" + r.status + (code ? "_" + code : "") }, 502);
+  }
   return json({ ok: true });
 }
 
