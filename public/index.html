@@ -193,7 +193,9 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 footer .brand{color:var(--ink)}
 
 .tester{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px}
-.tester .btn{padding:12px 20px;font-size:.95rem;border:none;cursor:pointer;font-family:var(--body)}
+.tester .btn{padding:12px 20px;font-size:.95rem;cursor:pointer;font-family:var(--body)}
+.tester .btn.primary{border:none}
+.facts-list li{font-weight:600}
 .tester small{font-size:.82rem;color:var(--faint);max-width:30ch;line-height:1.4}
 .tester small a{color:var(--muted)}
 /* Tester dialog */
@@ -352,16 +354,18 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
     <div class="games">
       <article class="game feat">
         <div class="game-body">
-          <div class="game-top"><span class="kind" data-i18n="nfhKind">Mobile · Survival</span><span class="status live" data-i18n="soon">Coming soon</span></div>
-          <div class="app-row"><img class="app-icon" src="nfh-icon-small.jpg" alt="" width="56" height="56"><h3 class="nfh-logo"><img src="nfh-title.png" alt="Not From Here. Observe. Survive. Evolve." width="731" height="182"></h3></div>
-          <p data-i18n="nfhDesc">Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?</p>
-          <ul class="specs">
-            <li><b data-i18n="platform">Platform</b>Android · Google Play</li>
-            <li><b data-i18n="controls">Controls</b><span data-i18n="nfhControls">Touch, one hand</span></li>
+          <div class="game-top"><span class="kind" data-i18n="nfhKind">Mobile · Survivor-like shooter</span><span class="status live" data-i18n="soon">Android beta</span></div>
+          <div class="app-row"><img class="app-icon" src="nfh-icon-small.jpg" alt="" width="56" height="56"><h3 class="nfh-logo"><img src="nfh-title.png" alt="Not From Here" width="731" height="182"></h3></div>
+          <p data-i18n="nfhDesc">You're the UFO in the declassified footage. Hold to move and fire, release to charge your super while you drift out of control. Every super is a bet — and 13 countries are sending their war machines after you.</p>
+          <ul class="specs facts-list">
+            <li data-i18n="nfhS1">13 bosses, one per country</li>
+            <li data-i18n="nfhS2">160+ cards · 23 supers</li>
+            <li data-i18n="nfhS3">One finger · 5-minute runs</li>
+            <li data-i18n="nfhS4">No pay-to-win</li>
           </ul>
           <div class="tester">
-            <button class="btn primary" type="button" id="tester-btn" aria-haspopup="dialog"><span data-i18n="testerBtn">Become a tester</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            <small><span data-i18n="testerNote">Play the Android beta before launch. Send us your Google Play email, or ask on</span> <a href="https://discord.gg/3c8QXdY3s" target="_blank" rel="noopener">Discord</a>.</small>
+            <a class="btn primary" href="/notfromhere/"><span data-i18n="nfhMore">Discover the game</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <button class="btn" type="button" id="tester-btn" aria-haspopup="dialog"><span data-i18n="testerBtn">Become a tester</span></button>
           </div>
         </div>
         <div class="art">
@@ -514,7 +518,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
 <script>
 (function(){
   var T={
-    en:{brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
+    en:{gpPrivacy:"Privacy policy",gpBetaText:"The beta is running on Google Play. Leave your Google Play email and we'll send you the invite.",gpBetaTitle:"Play it before launch.",gpBetaLabel:"Android beta",gpFairT:"No pay-to-win",gpHuntText:"It starts in Spain. Survive, and another country joins the hunt with its own war machine and its own boss.",gpHuntTitle:"13 countries want you down.",gpHuntLabel:"The hunt",gpH3d:"Pick your moment. Every super is a bet.",gpH3t:"Bet",gpH2d:"Let go to charge your super. While it charges, you drift out of control.",gpH2t:"Release",gpH1d:"Keep your finger down to move and fire.",gpH1t:"Hold",gpHowTitle:"One finger. Three decisions.",gpHowLabel:"How it plays",gpStat4:"minutes per run",gpStat3:"supers to bet on",gpStat2:"cards to build your run",gpStat1:"bosses, one per country",gpLead:"A survivor-like shooter for Android where you play the invader.",gpBack:"All games",nfhMore:"Discover the game",nfhS4:"No pay-to-win",nfhS3:"One finger · 5-minute runs",nfhS2:"160+ cards · 23 supers",nfhS1:"13 bosses, one per country",brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
       heroLabel:"Independent game studio · Rotterdam",heroTitleA:"Every game is a",heroTitleB:"new roll.",
       heroText:"We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.",
       ctaGames:"Explore our games",ctaDiscord:"Join the Discord",dieAria:"Roll the die",playerWord:"Player",hint:"Tap the die to roll",
@@ -522,8 +526,8 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       stat1:"games in development",stat2:"first launch platform",stat3:"players at the table",stat4:"engine for every game",
       gamesLabel:"On the table",gamesTitle:"Our games",
       gamesIntro:"One mobile game close to launch, one board game heading to Kickstarter and one prototype brewing on PC.",
-      soon:"Coming soon",inDev:"In development",proto:"Prototype",
-      nfhKind:"Mobile · Survival",nfhDesc:"Something not from this planet lands in Spain. Every wave, another country joins the hunt: France, Germany, the USA, Japan, China… How far can you get?",
+      soon:"Android beta",inDev:"In development",proto:"Prototype",
+      nfhKind:"Mobile · Survivor-like shooter",nfhDesc:"You're the UFO in the declassified footage. Hold to move and fire, release to charge your super while you drift out of control. Every super is a bet — and 13 countries are sending their war machines after you.",
       platform:"Platform",controls:"Controls",players:"Players",format:"Format",engine:"Engine",genre:"Genre",
       nfhControls:"Touch, one hand",
       barKind:"Board game · Cards",barDesc:"A pirate card game set in the Caribbean. Pick one of ten historical pirates, like Blackbeard or Mary Read, then bargain, betray and grab the treasure.",
@@ -539,7 +543,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       commLabel:"Community",commTitle:"Play with us.",commText:"Get early builds, vote on ideas and be the first to know when Not From Here launches.",
       emailTitle:"Email",testerBtn:"Become a tester",tqTitle:"Become a tester",tqIntro:"Play the Android beta before launch. We'll add your Google Play email to the test list and send you the invite.",tqClose:"Close",tqName:"Name or nickname",tqEmail:"Google Play email",tqDevice:"Phone model",tqDevicePh:"e.g. Samsung Galaxy A54",tqCountry:"Country",tqPlays:"How often do you play on mobile?",tqDaily:"Daily",tqWeekly:"A few times a week",tqRarely:"Now and then",tqSource:"How did you find us?",tqFriend:"A friend",tqOther:"Other",tqConsent:"I agree that Random Player Studio uses my email only to invite me to the Not From Here beta.",tqSend:"Send request",tqSending:"Sending…",tqDoneT:"You're on the list.",tqDoneP:"We'll send the invite to your Google Play email. Meanwhile, join the Discord to follow the beta.",tqErrFields:"Fill in your name, phone model and country.",tqErrEmail:"Enter a valid email, like you@gmail.com.",tqErrConsent:"Tick the box so we can use your email for the invite.",tqErrSend:"We couldn't send your request. Try again, or email contact@randomplayerstudio.com.",testerNote:"Fill in a short form and get the Android beta before launch. Or ask on",privacyLink:"Not From Here privacy policy",nfhAlt:"Not From Here: a military base at night with a radar dish, floodlit towers and soldiers on wet tarmac, under a black eclipse",
       lines:{1:"You go first. No pressure.",2:"Player 2 has joined the game.",3:"Not first, not last. Perfect.",4:"A good number for a card game.",5:"Almost full. Don't let them see you coming.",6:"Six: a full table in Blood and Ron."}},
-    es:{brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
+    es:{gpPrivacy:"Política de privacidad",gpBetaText:"La beta ya está en marcha en Google Play. Déjanos tu correo de Google Play y te enviamos la invitación.",gpBetaTitle:"Juégalo antes del lanzamiento.",gpBetaLabel:"Beta de Android",gpFairT:"Sin pagar para ganar",gpHuntText:"Empieza en España. Si sobrevives, otro país se une a la caza con su propia máquina de guerra y su propio jefe.",gpHuntTitle:"13 países te quieren derribar.",gpHuntLabel:"La caza",gpH3d:"Elige el momento. Cada súper es una apuesta.",gpH3t:"Apuesta",gpH2d:"Levanta el dedo para cargar tu súper. Mientras carga, vas a la deriva sin control.",gpH2t:"Suelta",gpH1d:"Deja el dedo pulsado para moverte y disparar.",gpH1t:"Mantén",gpHowTitle:"Un dedo. Tres decisiones.",gpHowLabel:"Cómo se juega",gpStat4:"minutos por partida",gpStat3:"súper para apostar",gpStat2:"cartas para armar tu partida",gpStat1:"jefes, uno por país",gpLead:"Un shooter survivor-like para Android en el que el invasor eres tú.",gpBack:"Todos los juegos",nfhMore:"Descubre el juego",nfhS4:"Sin pagar para ganar",nfhS3:"Un dedo · partidas de 5 minutos",nfhS2:"Más de 160 cartas · 23 súper",nfhS1:"13 jefes, uno por país",brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
       heroLabel:"Estudio independiente · Rotterdam",heroTitleA:"Cada juego es una",heroTitleB:"nueva tirada.",
       heroText:"Hacemos juegos para móvil y juegos de mesa. Partidas cortas, ideas raras y siempre un poco de azar.",
       ctaGames:"Descubre nuestros juegos",ctaDiscord:"Únete al Discord",dieAria:"Tirar el dado",playerWord:"Jugador",hint:"Toca el dado para tirar",
@@ -547,8 +551,8 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       stat1:"juegos en desarrollo",stat2:"primera plataforma de lanzamiento",stat3:"jugadores en la mesa",stat4:"motor de todos los juegos",
       gamesLabel:"En la mesa",gamesTitle:"Nuestros juegos",
       gamesIntro:"Un juego para móvil a punto de salir, un juego de mesa camino de Kickstarter y un prototipo cociéndose en PC.",
-      soon:"Próximamente",inDev:"En desarrollo",proto:"Prototipo",
-      nfhKind:"Móvil · Supervivencia",nfhDesc:"Algo que no es de este planeta llega a España. Cada oleada, otro país se suma a la caza: Francia, Alemania, Estados Unidos, Japón, China… ¿Hasta dónde llegas?",
+      soon:"Beta de Android",inDev:"En desarrollo",proto:"Prototipo",
+      nfhKind:"Móvil · Shooter survivor-like",nfhDesc:"Eres el ovni de las grabaciones desclasificadas. Mantén pulsado para moverte y disparar; suelta para cargar tu súper mientras vas a la deriva sin control. Cada súper es una apuesta, y 13 países envían sus máquinas de guerra a por ti.",
       platform:"Plataforma",controls:"Control",players:"Jugadores",format:"Formato",engine:"Motor",genre:"Género",
       nfhControls:"Táctil, una mano",
       barKind:"Juego de mesa · Cartas",barDesc:"Juego de cartas de piratas en el Caribe. Elige entre diez piratas históricos, como Barbanegra o Mary Read, negocia, traiciona y quédate con el tesoro.",
