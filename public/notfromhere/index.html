@@ -18,6 +18,24 @@
 <meta property="og:type" content="website">
 <link rel="icon" type="image/jpeg" href="/nfh-icon-small.jpg">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+/* Gameplay media */
+.gp-media{padding-block:90px 70px}
+.gp-media-grid{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.gp-media-copy{min-width:0}
+.gp-media-copy h2{font-size:clamp(2.2rem,5vw,3.6rem);margin-top:14px}
+.gp-media-copy p{color:var(--muted);max-width:46ch;margin:18px 0 0}
+.phone{width:min(300px,72vw);aspect-ratio:9/16;max-width:100%;border-radius:36px;padding:10px;background:linear-gradient(160deg,#1A2A52,#060C1F);box-shadow:0 0 0 1px rgba(150,195,255,.25),0 40px 80px -30px rgba(0,168,240,.45),0 30px 60px -30px rgba(0,0,0,.9);justify-self:center}
+.phone video{display:block;width:100%;height:100%;object-fit:cover;border-radius:28px;background:#000}
+.shots{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.shots li{min-width:0;display:grid;gap:10px}
+.shots img{display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;border-radius:18px;border:1px solid var(--line-strong);background:#000}
+.shots span{font-size:.85rem;color:var(--muted)}
+@media (max-width:900px){
+  .gp-media{padding-block:64px 48px}
+  .gp-media-grid{grid-template-columns:1fr;gap:32px}
+  .shots{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;margin-top:40px}
+  .shots li{scroll-snap-align:start}
+}
 /* Game page */
 .gp-hero{position:relative;overflow:hidden;min-height:min(86vh,760px);display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
 .gp-scene{position:absolute;inset:0;background:#000}
@@ -362,6 +380,30 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
   </div>
 </div>
 
+<section id="gameplay" class="gp-media">
+  <div class="wrap">
+    <div class="gp-media-grid">
+      <div class="gp-media-copy">
+        <span class="eyebrow" data-i18n="gpMediaLabel">Gameplay</span>
+        <h2 data-i18n="gpMediaTitle">Straight from a real run.</h2>
+        <p data-i18n="gpMediaText">No mock-ups: this is the game as it plays on Android. Bullet storms, classified upgrades and bosses sent by each country.</p>
+      </div>
+      <div class="phone">
+        <video id="gp-video" autoplay muted loop playsinline preload="metadata" poster="/notfromhere/media/gameplay-poster.jpg" width="540" height="960" aria-label="Not From Here gameplay">
+          <source src="/notfromhere/media/gameplay.webm" type="video/webm">
+          <source src="/notfromhere/media/gameplay.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <ul class="shots">
+      <li><img src="/notfromhere/media/shot1.webp" alt="" width="540" height="960" loading="lazy"><span data-i18n="gpShot1">Maurya fills the screen with bullets</span></li>
+      <li><img src="/notfromhere/media/shot2.webp" alt="" width="540" height="960" loading="lazy"><span data-i18n="gpShot2">Chile's Moai fires its eye laser</span></li>
+      <li><img src="/notfromhere/media/shot3.webp" alt="" width="540" height="960" loading="lazy"><span data-i18n="gpShot3">A classified upgrade, decrypted</span></li>
+      <li><img src="/notfromhere/media/shot4.webp" alt="" width="540" height="960" loading="lazy"><span data-i18n="gpShot4">Mexico's flying temple</span></li>
+    </ul>
+  </div>
+</section>
+
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
@@ -477,7 +519,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
 <script>
 (function(){
   var T={
-    en:{gpJoinNote:"Already on the list? Open this on your Android phone:",tqInstall:"Get the beta on Google Play",tqJoin:"1 · Join the test",gpPrivacy:"Privacy policy",gpBetaText:"Google Play needs 12 testers playing for 14 days in a row before Not From Here can launch. Leave your Google Play email and we'll send you the invite.",gpBetaTitle:"Help us launch.",gpBetaLabel:"Android beta",gpFairT:"No pay-to-win",gpHuntText:"It starts in Spain. Survive, and another country joins the hunt with its own war machine and its own boss.",gpHuntTitle:"13 countries want you down.",gpHuntLabel:"The hunt",gpH3d:"Pick your moment. Every super is a bet.",gpH3t:"Bet",gpH2d:"Let go to charge your super. While it charges, you drift out of control.",gpH2t:"Release",gpH1d:"Keep your finger down to move and fire.",gpH1t:"Hold",gpHowTitle:"One finger. Three decisions.",gpHowLabel:"How it plays",gpStat4:"minutes per run",gpStat3:"supers to bet on",gpStat2:"cards to build your run",gpStat1:"bosses, one per country",gpLead:"A survivor-like shooter for Android where you play the invader.",gpBack:"All games",nfhMore:"Discover the game",nfhS4:"No pay-to-win",nfhS3:"One finger · 5-minute runs",nfhS2:"160+ cards · 23 supers",nfhS1:"13 bosses, one per country",brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
+    en:{gpShot4:"Mexico's flying temple",gpShot3:"A classified upgrade, decrypted",gpShot2:"Chile's Moai fires its eye laser",gpShot1:"Maurya fills the screen with bullets",gpMediaText:"No mock-ups: this is the game as it plays on Android. Bullet storms, classified upgrades and bosses sent by each country.",gpMediaTitle:"Straight from a real run.",gpMediaLabel:"Gameplay",gpJoinNote:"Already on the list? Open this on your Android phone:",tqInstall:"Get the beta on Google Play",tqJoin:"1 · Join the test",gpPrivacy:"Privacy policy",gpBetaText:"Google Play needs 12 testers playing for 14 days in a row before Not From Here can launch. Leave your Google Play email and we'll send you the invite.",gpBetaTitle:"Help us launch.",gpBetaLabel:"Android beta",gpFairT:"No pay-to-win",gpHuntText:"It starts in Spain. Survive, and another country joins the hunt with its own war machine and its own boss.",gpHuntTitle:"13 countries want you down.",gpHuntLabel:"The hunt",gpH3d:"Pick your moment. Every super is a bet.",gpH3t:"Bet",gpH2d:"Let go to charge your super. While it charges, you drift out of control.",gpH2t:"Release",gpH1d:"Keep your finger down to move and fire.",gpH1t:"Hold",gpHowTitle:"One finger. Three decisions.",gpHowLabel:"How it plays",gpStat4:"minutes per run",gpStat3:"supers to bet on",gpStat2:"cards to build your run",gpStat1:"bosses, one per country",gpLead:"A survivor-like shooter for Android where you play the invader.",gpBack:"All games",nfhMore:"Discover the game",nfhS4:"No pay-to-win",nfhS3:"One finger · 5-minute runs",nfhS2:"160+ cards · 23 supers",nfhS1:"13 bosses, one per country",brandAria:"Random Player Studio, home",navGames:"Games",navStudio:"Studio",navCommunity:"Community",
       heroLabel:"Independent game studio · Rotterdam",heroTitleA:"Every game is a",heroTitleB:"new roll.",
       heroText:"We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.",
       ctaGames:"Explore our games",ctaDiscord:"Join the Discord",dieAria:"Roll the die",playerWord:"Player",hint:"Tap the die to roll",
@@ -502,7 +544,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       commLabel:"Community",commTitle:"Play with us.",commText:"Get early builds, vote on ideas and be the first to know when Not From Here launches.",
       emailTitle:"Email",testerBtn:"Become a tester",tqTitle:"Become a tester",tqIntro:"Play the Android beta before launch. We'll add your Google Play email to the test list and send you the invite.",tqClose:"Close",tqName:"Name or nickname",tqEmail:"Google Play email",tqDevice:"Phone model",tqDevicePh:"e.g. Samsung Galaxy A54",tqCountry:"Country",tqPlays:"How often do you play on mobile?",tqDaily:"Daily",tqWeekly:"A few times a week",tqRarely:"Now and then",tqSource:"How did you find us?",tqFriend:"A friend",tqOther:"Other",tqConsent:"I agree that Random Player Studio uses my email only to invite me to the Not From Here beta.",tqSend:"Send request",tqSending:"Sending…",tqDoneT:"Request received.",tqDoneP:"We'll add your Google Play email to the test list, usually within 24 hours. Then open this link on your Android phone, signed in with that email:",tqErrFields:"Fill in your name, phone model and country.",tqErrEmail:"Enter a valid email, like you@gmail.com.",tqErrConsent:"Tick the box so we can use your email for the invite.",tqErrSend:"We couldn't send your request. Try again, or email contact@randomplayerstudio.com.",testerNote:"Help us launch: 14-day beta, 12 testers needed. Fill in a short form, or ask on",privacyLink:"Not From Here privacy policy",nfhAlt:"Not From Here: a military base at night with a radar dish, floodlit towers and soldiers on wet tarmac, under a black eclipse",
       lines:{1:"You go first. No pressure.",2:"Player 2 has joined the game.",3:"Not first, not last. Perfect.",4:"A good number for a card game.",5:"Almost full. Don't let them see you coming.",6:"Six: a full table in Blood and Ron."}},
-    es:{gpJoinNote:"¿Ya estás en la lista? Ábrelo en tu móvil Android:",tqInstall:"Consigue la beta en Google Play",tqJoin:"1 · Unirse a la prueba",gpPrivacy:"Política de privacidad",gpBetaText:"Google Play exige 12 testers jugando 14 días seguidos antes de que Not From Here pueda salir. Déjanos tu correo de Google Play y te enviamos la invitación.",gpBetaTitle:"Ayúdanos a lanzarlo.",gpBetaLabel:"Beta de Android",gpFairT:"Sin pagar para ganar",gpHuntText:"Empieza en España. Si sobrevives, otro país se une a la caza con su propia máquina de guerra y su propio jefe.",gpHuntTitle:"13 países te quieren derribar.",gpHuntLabel:"La caza",gpH3d:"Elige el momento. Cada súper es una apuesta.",gpH3t:"Apuesta",gpH2d:"Levanta el dedo para cargar tu súper. Mientras carga, vas a la deriva sin control.",gpH2t:"Suelta",gpH1d:"Deja el dedo pulsado para moverte y disparar.",gpH1t:"Mantén",gpHowTitle:"Un dedo. Tres decisiones.",gpHowLabel:"Cómo se juega",gpStat4:"minutos por partida",gpStat3:"súper para apostar",gpStat2:"cartas para armar tu partida",gpStat1:"jefes, uno por país",gpLead:"Un shooter survivor-like para Android en el que el invasor eres tú.",gpBack:"Todos los juegos",nfhMore:"Descubre el juego",nfhS4:"Sin pagar para ganar",nfhS3:"Un dedo · partidas de 5 minutos",nfhS2:"Más de 160 cartas · 23 súper",nfhS1:"13 jefes, uno por país",brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
+    es:{gpShot4:"El templo volador de México",gpShot3:"Una mejora clasificada, descifrada",gpShot2:"El Moai de Chile dispara su láser",gpShot1:"Maurya llena la pantalla de balas",gpMediaText:"Sin montajes: así se juega en Android. Tormentas de balas, mejoras clasificadas y jefes enviados por cada país.",gpMediaTitle:"Sacado de una partida real.",gpMediaLabel:"Gameplay",gpJoinNote:"¿Ya estás en la lista? Ábrelo en tu móvil Android:",tqInstall:"Consigue la beta en Google Play",tqJoin:"1 · Unirse a la prueba",gpPrivacy:"Política de privacidad",gpBetaText:"Google Play exige 12 testers jugando 14 días seguidos antes de que Not From Here pueda salir. Déjanos tu correo de Google Play y te enviamos la invitación.",gpBetaTitle:"Ayúdanos a lanzarlo.",gpBetaLabel:"Beta de Android",gpFairT:"Sin pagar para ganar",gpHuntText:"Empieza en España. Si sobrevives, otro país se une a la caza con su propia máquina de guerra y su propio jefe.",gpHuntTitle:"13 países te quieren derribar.",gpHuntLabel:"La caza",gpH3d:"Elige el momento. Cada súper es una apuesta.",gpH3t:"Apuesta",gpH2d:"Levanta el dedo para cargar tu súper. Mientras carga, vas a la deriva sin control.",gpH2t:"Suelta",gpH1d:"Deja el dedo pulsado para moverte y disparar.",gpH1t:"Mantén",gpHowTitle:"Un dedo. Tres decisiones.",gpHowLabel:"Cómo se juega",gpStat4:"minutos por partida",gpStat3:"súper para apostar",gpStat2:"cartas para armar tu partida",gpStat1:"jefes, uno por país",gpLead:"Un shooter survivor-like para Android en el que el invasor eres tú.",gpBack:"Todos los juegos",nfhMore:"Descubre el juego",nfhS4:"Sin pagar para ganar",nfhS3:"Un dedo · partidas de 5 minutos",nfhS2:"Más de 160 cartas · 23 súper",nfhS1:"13 jefes, uno por país",brandAria:"Random Player Studio, inicio",navGames:"Juegos",navStudio:"Estudio",navCommunity:"Comunidad",
       heroLabel:"Estudio independiente · Rotterdam",heroTitleA:"Cada juego es una",heroTitleB:"nueva tirada.",
       heroText:"Hacemos juegos para móvil y juegos de mesa. Partidas cortas, ideas raras y siempre un poco de azar.",
       ctaGames:"Descubre nuestros juegos",ctaDiscord:"Únete al Discord",dieAria:"Tirar el dado",playerWord:"Jugador",hint:"Toca el dado para tirar",
@@ -567,6 +609,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
     });
   }
 
+  try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){var gv=document.getElementById('gp-video');if(gv){gv.removeAttribute('autoplay');gv.pause();gv.setAttribute('controls','');}}}catch(e){}
   var faces={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
   var die=document.getElementById('die');if(!die)return;var pips=die.querySelectorAll('span'),num=document.getElementById('num');
   function show(n){pips.forEach(function(p,i){p.classList.toggle('on',faces[n].indexOf(i)>-1)});}
