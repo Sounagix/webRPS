@@ -7,7 +7,7 @@
     "directory": "./public",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/notfromhere/privacy", "/notfromhere/delete-account", "/privacy", "/privacy/"]
   }
   // Secreto necesario (Cloudflare > webrps > Settings > Variables and Secrets):
   // DISCORD_WEBHOOK_URL = URL del webhook del canal de testers en Discord

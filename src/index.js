@@ -72,10 +72,21 @@ async function handleTester(request, env) {
   return json({ ok: true });
 }
 
+// Páginas legales: responden 200 con y sin barra final, sin redirecciones (Google Play las revisa con un bot).
+// "/privacy" cubre el enlace relativo "../privacy/" cuando delete-account se abre sin barra final.
+const LEGAL_PAGES = {
+  "/notfromhere/privacy": "/notfromhere/privacy/",
+  "/notfromhere/delete-account": "/notfromhere/delete-account/",
+  "/privacy": "/notfromhere/privacy/",
+  "/privacy/": "/notfromhere/privacy/",
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/tester") return handleTester(request, env);
+    const legal = LEGAL_PAGES[url.pathname];
+    if (legal) return env.ASSETS.fetch(new Request(new URL(legal, url), request));
     return env.ASSETS.fetch(request);
   },
 };
