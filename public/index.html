@@ -99,7 +99,7 @@ nav ul a:hover{color:var(--ink)}
 
 /* Stats strip */
 .strip{border-block:1px solid var(--line);background:rgba(10,21,50,.5)}
-.strip ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.strip ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr)}
 .strip li{padding:26px 22px;border-left:1px solid var(--line);min-width:0}
 .strip li:first-child{border-left:none;padding-left:0}
 .strip b{display:block;font-family:var(--display);font-stretch:118%;font-weight:800;font-size:1.7rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
@@ -262,9 +262,8 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
   .game.feat{grid-template-columns:1fr}
   .game.feat .art{order:-1;border-bottom:1px solid var(--line)}
   .pillars{grid-template-columns:1fr}
-  .strip ul{grid-template-columns:repeat(2,1fr)}
-  .strip li:nth-child(3){border-left:none;padding-left:0}
-  .strip li:nth-child(n+3){border-top:1px solid var(--line)}
+  .strip li{padding:20px 14px}
+  .strip b{font-size:1.35rem}
   .cta{padding:40px 24px;border-radius:24px}
   section{padding-block:72px}
   nav ul{display:none}
@@ -342,7 +341,6 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       <li><b>04</b><span data-i18n="stat1">games in development</span></li>
       <li><b>Android</b><span data-i18n="stat2">first launch platform</span></li>
       <li><b>2–6</b><span data-i18n="stat3">players at the table</span></li>
-      <li><b>Unity</b><span data-i18n="stat4">engine for every game</span></li>
     </ul>
   </div>
 </div>
@@ -418,7 +416,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
           <h3 data-i18n="botTitle">Project Herbalist</h3>
           <p data-i18n="botDesc">Join guild parties in the dungeons, gather ingredients, brew potions and sell them in your own shop. Working title.</p>
           <ul class="specs">
-            <li><b data-i18n="engine">Engine</b>Unity 3D</li>
+            <li><b data-i18n="platform">Platform</b>PC</li>
             <li><b data-i18n="genre">Genre</b><span data-i18n="botGenre">Crafting · Shop</span></li>
           </ul>
         </div>
@@ -445,7 +443,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
           <h3 data-i18n="shTitle">Project Shelter</h3>
           <p data-i18n="shDesc">Run a dog and cat shelter in first person. Rescue animals, feed, wash and heal them by hand, then find each one the right family. Working title.</p>
           <ul class="specs">
-            <li><b data-i18n="engine">Engine</b>Unity 6 · URP</li>
+            <li><b data-i18n="platform">Platform</b>PC</li>
             <li><b data-i18n="shCamLabel">Camera</b><span data-i18n="shCam">First person</span></li>
           </ul>
         </div>
@@ -557,7 +555,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       heroText:"We make mobile games and board games. Short sessions, odd ideas and always a little bit of luck.",
       ctaGames:"Explore our games",ctaDiscord:"Join the Discord",dieAria:"Roll the die",playerWord:"Player",hint:"Tap the die to roll",
       mascotAlt:"Random Player Studio mascot: an astronaut with headphones playing with a controller in an armchair",
-      stat1:"games in development",stat2:"first launch platform",stat3:"players at the table",stat4:"engine for every game",
+      stat1:"games in development",stat2:"first launch platform",stat3:"players at the table",
       gamesLabel:"On the table",gamesTitle:"Our games",
       gamesIntro:"One mobile game close to launch, one board game heading to Kickstarter and one prototype brewing on PC.",
       soon:"Android beta",inDev:"In development",proto:"Prototype",
@@ -582,7 +580,7 @@ dialog.tq::backdrop{background:rgba(2,6,18,.72);backdrop-filter:blur(6px);-webki
       heroText:"Hacemos juegos para móvil y juegos de mesa. Partidas cortas, ideas raras y siempre un poco de azar.",
       ctaGames:"Descubre nuestros juegos",ctaDiscord:"Únete al Discord",dieAria:"Tirar el dado",playerWord:"Jugador",hint:"Toca el dado para tirar",
       mascotAlt:"Mascota de Random Player Studio: un astronauta con cascos jugando con un mando en un sillón",
-      stat1:"juegos en desarrollo",stat2:"primera plataforma de lanzamiento",stat3:"jugadores en la mesa",stat4:"motor de todos los juegos",
+      stat1:"juegos en desarrollo",stat2:"primera plataforma de lanzamiento",stat3:"jugadores en la mesa",
       gamesLabel:"En la mesa",gamesTitle:"Nuestros juegos",
       gamesIntro:"Un juego para móvil a punto de salir, un juego de mesa camino de Kickstarter y un prototipo cociéndose en PC.",
       soon:"Beta de Android",inDev:"En desarrollo",proto:"Prototipo",
