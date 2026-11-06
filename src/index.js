@@ -81,8 +81,8 @@ const REPORT_LABELS = {
 };
 const LONG_FIELDS = new Set(["fallos", "mejor", "cambiar"]);
 
-async function postToDiscord(env, payload, threadName) {
-  const hook = String(env.DISCORD_WEBHOOK_URL).trim().replace("://discordapp.com/", "://discord.com/");
+async function postToDiscord(env, payload, threadName, hookUrl) {
+  const hook = String(hookUrl || env.DISCORD_WEBHOOK_URL).trim().replace("://discordapp.com/", "://discord.com/");
   const send = (body) => fetch(hook, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   let r = await send(payload);
   let detail = "";
@@ -150,7 +150,10 @@ const pct = (rows, key) => {
 const distLine = (rows) => (rows && rows.length ? rows.map((r) => r.v + " " + r.n).join(" · ") : "–");
 
 async function dailyReport(env) {
-  if (!env.REPORTS || !env.DISCORD_WEBHOOK_URL) return;
+  if (!env.REPORTS) return;
+  // El webhook del informe diario se guarda en la base (tabla config), no en el repositorio público.
+  const reportHook = await env.REPORTS.prepare("SELECT v FROM config WHERE k = 'report_webhook'").first("v");
+  if (!reportHook && !env.DISCORD_WEBHOOK_URL) return;
   const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
   const day = await loadStats(env, since);
   if (!day.n) return; // sin informes nuevos, no se publica nada
@@ -182,7 +185,7 @@ async function dailyReport(env) {
       timestamp: new Date().toISOString(),
     }],
   };
-  await postToDiscord(env, payload, "Informe diario " + new Date().toISOString().slice(0, 10));
+  await postToDiscord(env, payload, "Informe diario " + new Date().toISOString().slice(0, 10), reportHook);
 }
 
 const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
