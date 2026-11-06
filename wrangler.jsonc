@@ -3,6 +3,11 @@
   "main": "src/index.js",
   "compatibility_date": "2026-10-01",
   "keep_vars": true,
+  "d1_databases": [
+    { "binding": "REPORTS", "database_name": "nfh-reports", "database_id": "5be09728-dde9-4d63-800c-3955bcf2a533" }
+  ],
+  // Informe diario de testers a Discord: 19:00 UTC (20:00 en invierno en España, 21:00 en verano)
+  "triggers": { "crons": ["0 19 * * *"] },
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
