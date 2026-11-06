@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>NFH Tester Report</title>
+<link rel="icon" type="image/jpeg" href="/nfh-icon-small.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* Expediente FLIR de una sola columna: cabecera de informe clasificado y preguntas como casillas de un formulario militar. Estética oscura fija, como el juego. */
+:root {
+  --bg: #0a0f10; --panel: #111a1b; --line: #233536; --fg: #e3ecea; --dim: #8aa3a0;
+  --cyan: #46e0d6; --red: #ff5a4e; --gold: #f2c14e;
+  --display: "Bebas Neue", "Oswald", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+  background-image: repeating-linear-gradient(0deg, rgba(70,224,214,0.025) 0 1px, transparent 1px 4px);
+}
+[hidden] { display: none !important; }
+.wrap { max-width: 680px; margin: 0 auto; display: grid; gap: 28px; }
+header { display: grid; gap: 10px; border: 1px solid var(--line); padding: 20px; position: relative; }
+header::before, header::after { content: ""; position: absolute; width: 18px; height: 18px; border-color: var(--cyan); border-style: solid; }
+header::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+header::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.meta { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; color: var(--dim); display: flex; flex-wrap: wrap; gap: 6px 18px; text-transform: uppercase; }
+.meta b { color: var(--red); font-weight: 600; }
+.lang { display: inline-flex; gap: 2px; border: 1px solid var(--line); padding: 2px; }
+.lang button { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; padding: 4px 8px; background: transparent; color: var(--dim); border: 0; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--cyan); color: #04201e; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 9vw, 60px); line-height: 0.95; letter-spacing: 0.02em; margin: 0; text-wrap: balance; }
+h1 .w { color: var(--cyan); }
+.intro { color: var(--dim); margin: 0; max-width: 60ch; }
+form { display: grid; gap: 18px; }
+fieldset { border: 1px solid var(--line); background: var(--panel); margin: 0; padding: 16px 18px 18px; display: grid; gap: 12px; min-width: 0; }
+legend { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--cyan); text-transform: uppercase; padding: 0 6px; }
+.q { font-weight: 600; margin: 0; }
+.hint { color: var(--dim); font-size: 14px; margin: -6px 0 0; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; border: 0; }
+.opts label { position: relative; cursor: pointer; }
+.opts input { position: absolute; opacity: 0; inset: 0; cursor: pointer; margin: 0; }
+.opts span { display: inline-block; padding: 8px 14px; border: 1px solid var(--line); font-size: 15px; transition: border-color .15s, background .15s; }
+.opts input:checked + span { border-color: var(--cyan); background: rgba(70,224,214,0.14); color: #fff; }
+.opts input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.scale span { min-width: 46px; text-align: center; font-family: var(--mono); }
+.ends { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; max-width: 290px; }
+input[type=text], textarea { width: 100%; background: var(--bg); color: var(--fg); border: 1px solid var(--line); padding: 10px 12px; font: inherit; font-size: 16px; border-radius: 0; }
+textarea { min-height: 84px; resize: vertical; }
+input[type=text]:focus, textarea:focus { outline: none; border-color: var(--cyan); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row2 > * { min-width: 0; display: grid; gap: 6px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+.small { font-size: 14px; color: var(--dim); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+button.main { font-family: var(--display); font-size: 24px; letter-spacing: 0.06em; padding: 10px 26px; border: 0; cursor: pointer; background: var(--cyan); color: #04201e; }
+button.main[disabled] { opacity: .6; cursor: wait; }
+button.ghost { font-family: var(--display); background: transparent; color: var(--cyan); border: 1px solid var(--cyan); font-size: 20px; padding: 8px 18px; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+#status { font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em; }
+#status.ok { color: var(--cyan); }
+#status.err { color: var(--red); }
+#copybox { width: 100%; min-height: 160px; font-family: var(--mono); font-size: 13px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.done { border: 1px solid var(--cyan); background: rgba(70,224,214,0.08); padding: 20px; display: grid; gap: 8px; }
+.done b { font-family: var(--display); font-size: 34px; font-weight: 400; letter-spacing: .03em; color: var(--cyan); }
+.done p { margin: 0; color: var(--dim); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="top">
+      <div class="meta"><span data-t="file">Case file NFH-TEST</span><span><b data-t="classified">Classified</b></span><span data-t="field">Field report</span></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+        <button type="button" data-lang="de" lang="de" aria-pressed="false">DE</button>
+        <button type="button" data-lang="pt" lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="it" lang="it" aria-pressed="false">IT</button>
+      </div>
+    </div>
+    <h1><span data-t="h1a">Tester</span> <span data-t="h1b" class="w">report</span></h1>
+    <p class="intro" data-t="intro">Thanks for playing NOT FROM HERE. 14 short questions, about 3 minutes. Answer what you remember; everything is optional except the fun.</p>
+  </header>
+
+  <form id="f" novalidate>
+    <fieldset>
+      <legend data-t="s1">01 · You and your runs</legend>
+      <div class="row2">
+        <div><label class="q" for="nombre" data-t="nombre">Name or nickname</label><input type="text" id="nombre" name="nombre" maxlength="40" data-ph="optional" placeholder="Optional"></div>
+        <div><label class="q" for="movil" data-t="movil">Phone</label><input type="text" id="movil" name="movil" maxlength="60" data-ph="movilPh" placeholder="E.g. Samsung A54"></div>
+      </div>
+      <p class="q" id="q-partidas" data-t="partidas">How many runs have you played?</p>
+      <div class="opts" role="radiogroup" aria-labelledby="q-partidas">
+        <label><input type="radio" name="partidas" value="1-2" id="p1"><span>1–2</span></label>
+        <label><input type="radio" name="partidas" value="3-5" id="p2"><span>3–5</span></label>
+        <label><input type="radio" name="partidas" value="6-10" id="p3"><span>6–10</span></label>
+        <label><input type="radio" name="partidas" value="Más de 10" id="p4"><span data-t="mas10">More than 10</span></label>
+      </div>
+      <label class="q" for="record" data-t="record">How far did you get in your best run?</label>
+      <p class="hint" data-t="recordHint">The minute, or the last boss you saw (El Toro, The Independence, Maurya…).</p>
+      <input type="text" id="record" name="record" maxlength="80">
+    </fieldset>
+
+    <fieldset>
+      <legend data-t="s2">02 · How it felt</legend>
+      <p class="q" id="q-div" data-t="diversion">How much fun did you have? *</p>
+      <div class="opts scale" role="radiogroup" aria-labelledby="q-div">
+        <label><input type="radio" name="diversion" value="1" id="d1"><span>1</span></label>
+        <label><input type="radio" name="diversion" value="2" id="d2"><span>2</span></label>
+        <label><input type="radio" name="diversion" value="3" id="d3"><span>3</span></label>
+        <label><input type="radio" name="diversion" value="4" id="d4"><span>4</span></label>
+        <label><input type="radio" name="diversion" value="5" id="d5"><span>5</span></label>
+      </div>
+      <div class="ends"><span data-t="bored">I got bored</span><span data-t="hooked">I got hooked</span></div>
+      <p class="q" id="q-dif" data-t="dificultad">The difficulty felt…</p>
+      <div class="opts" role="radiogroup" aria-labelledby="q-dif">
+        <label><input type="radio" name="dificultad" value="Muy fácil" id="f1"><span data-t="dif1">Too easy</span></label>
+        <label><input type="radio" name="dificultad" value="Fácil" id="f2"><span data-t="dif2">Easy</span></label>
+        <label><input type="radio" name="dificultad" value="Justa" id="f3"><span data-t="dif3">Just right</span></label>
+        <label><input type="radio" name="dificultad" value="Difícil" id="f4"><span data-t="dif4">Hard</span></label>
+        <label><input type="radio" name="dificultad" value="Muy difícil" id="f5"><span data-t="dif5">Too hard</span></label>
+      </div>
+      <p class="q" id="q-vol" data-t="volver">Would you play again without anyone asking you to?</p>
+      <div class="opts" role="radiogroup" aria-labelledby="q-vol">
+        <label><input type="radio" name="volver" value="Sí" id="v1"><span data-t="yes">Yes</span></label>
+        <label><input type="radio" name="volver" value="Quizás" id="v2"><span data-t="maybe">Maybe</span></label>
+        <label><input type="radio" name="volver" value="No" id="v3"><span data-t="no">No</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-t="s3">03 · Supers and cards</legend>
+      <p class="q" id="q-sup" data-t="super">Did you understand the super? (lift your finger to charge it, tap to cancel)</p>
+      <div class="opts" role="radiogroup" aria-labelledby="q-sup">
+        <label><input type="radio" name="super" value="Enseguida" id="s1"><span data-t="sup1">Right away</span></label>
+        <label><input type="radio" name="super" value="Tras unas partidas" id="s2"><span data-t="sup2">After a few runs</span></label>
+        <label><input type="radio" name="super" value="No del todo" id="s3"><span data-t="sup3">Not really</span></label>
+        <label><input type="radio" name="super" value="No sabía que existía" id="s4"><span data-t="sup4">I didn't know it existed</span></label>
+      </div>
+      <label class="q" for="favorito" data-t="favorito">Which super or class did you like most? And least?</label>
+      <input type="text" id="favorito" name="favorito" maxlength="120">
+      <p class="q" id="q-evo" data-t="evolucion">Did you see your super evolve (the golden slow motion after beating a boss)?</p>
+      <div class="opts" role="radiogroup" aria-labelledby="q-evo">
+        <label><input type="radio" name="evolucion" value="Sí, me gustó" id="e1"><span data-t="evo1">Yes, I liked it</span></label>
+        <label><input type="radio" name="evolucion" value="Sí, no me convenció" id="e2"><span data-t="evo2">Yes, it didn't convince me</span></label>
+        <label><input type="radio" name="evolucion" value="No llegué" id="e3"><span data-t="evo3">I didn't get that far</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-t="s4">04 · Screen and bugs</legend>
+      <p class="q" id="q-leg" data-t="legibilidad">Could you see your UAP and the enemy bullets clearly?</p>
+      <div class="opts scale" role="radiogroup" aria-labelledby="q-leg">
+        <label><input type="radio" name="legibilidad" value="1" id="l1"><span>1</span></label>
+        <label><input type="radio" name="legibilidad" value="2" id="l2"><span>2</span></label>
+        <label><input type="radio" name="legibilidad" value="3" id="l3"><span>3</span></label>
+        <label><input type="radio" name="legibilidad" value="4" id="l4"><span>4</span></label>
+        <label><input type="radio" name="legibilidad" value="5" id="l5"><span>5</span></label>
+      </div>
+      <div class="ends"><span data-t="lost">I got lost</span><span data-t="clear">Always clear</span></div>
+      <label class="q" for="fallos" data-t="fallos">Any bug, crash or stutter? Anything you didn't understand?</label>
+      <textarea id="fallos" name="fallos" maxlength="800" data-ph="fallosPh" placeholder="What happened and when"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend data-t="s5">05 · To finish</legend>
+      <label class="q" for="mejor" data-t="mejor">What you liked most</label>
+      <textarea id="mejor" name="mejor" maxlength="800"></textarea>
+      <label class="q" for="cambiar" data-t="cambiar">What you would change</label>
+      <textarea id="cambiar" name="cambiar" maxlength="800"></textarea>
+    </fieldset>
+
+    <div class="hp" aria-hidden="true"><label for="website">Website</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
+
+    <div class="actions">
+      <button type="submit" class="main" id="send" data-t="send">Send report</button>
+      <span id="status" role="status"></span>
+    </div>
+    <div id="copyarea" hidden>
+      <p class="small" data-t="copyIntro">If it couldn't be sent, copy the report and send it to the developer on WhatsApp or Discord.</p>
+      <div class="actions"><button type="button" class="ghost" id="copy" data-t="copyBtn">Copy report</button></div>
+      <textarea id="copybox" readonly aria-label="Report"></textarea>
+    </div>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <b data-t="doneT">Report received.</b>
+    <p data-t="doneP">Thank you! Your answers go straight to the developer.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var T = {
+    en: {file:"Case file NFH-TEST",classified:"Classified",field:"Field report",h1a:"Tester",h1b:"report",
+      intro:"Thanks for playing NOT FROM HERE. 14 short questions, about 3 minutes. Answer what you remember; everything is optional except the fun.",
+      s1:"01 · You and your runs",nombre:"Name or nickname",optional:"Optional",movil:"Phone",movilPh:"E.g. Samsung A54",
+      partidas:"How many runs have you played?",mas10:"More than 10",record:"How far did you get in your best run?",
+      recordHint:"The minute, or the last boss you saw (El Toro, The Independence, Maurya…).",
+      s2:"02 · How it felt",diversion:"How much fun did you have? *",bored:"I got bored",hooked:"I got hooked",
+      dificultad:"The difficulty felt…",dif1:"Too easy",dif2:"Easy",dif3:"Just right",dif4:"Hard",dif5:"Too hard",
+      volver:"Would you play again without anyone asking you to?",yes:"Yes",maybe:"Maybe",no:"No",
+      s3:"03 · Supers and cards",super:"Did you understand the super? (lift your finger to charge it, tap to cancel)",
+      sup1:"Right away",sup2:"After a few runs",sup3:"Not really",sup4:"I didn't know it existed",
+      favorito:"Which super or class did you like most? And least?",
+      evolucion:"Did you see your super evolve (the golden slow motion after beating a boss)?",
+      evo1:"Yes, I liked it",evo2:"Yes, it didn't convince me",evo3:"I didn't get that far",
+      s4:"04 · Screen and bugs",legibilidad:"Could you see your UAP and the enemy bullets clearly?",lost:"I got lost",clear:"Always clear",
+      fallos:"Any bug, crash or stutter? Anything you didn't understand?",fallosPh:"What happened and when",
+      s5:"05 · To finish",mejor:"What you liked most",cambiar:"What you would change",
+      send:"Send report",sending:"Sending…",needFun:"Answer the fun question (1 to 5).",
+      sendErr:"It couldn't be sent: copy the report below.",copyIntro:"If it couldn't be sent, copy the report and send it to the developer on WhatsApp or Discord.",
+      copyBtn:"Copy report",copied:"Report copied.",selectCopy:"Select the text and copy it.",
+      doneT:"Report received.",doneP:"Thank you! Your answers go straight to the developer."},
+    es: {file:"Expediente NFH-TEST",classified:"Clasificado",field:"Informe de campo",h1a:"Informe de",h1b:"tester",
+      intro:"Gracias por probar NOT FROM HERE. Son 14 preguntas cortas, unos 3 minutos. Contesta lo que recuerdes; todo es opcional salvo la diversión.",
+      s1:"01 · Tú y tus partidas",nombre:"Nombre o apodo",optional:"Opcional",movil:"Móvil",movilPh:"Ej.: Samsung A54",
+      partidas:"¿Cuántas partidas has jugado?",mas10:"Más de 10",record:"¿Hasta dónde llegaste en tu mejor partida?",
+      recordHint:"El minuto o el último jefe que viste (El Toro, The Independence, Maurya…).",
+      s2:"02 · Sensación",diversion:"¿Cuánto te has divertido? *",bored:"Me aburrí",hooked:"Me enganchó",
+      dificultad:"La dificultad te pareció…",dif1:"Muy fácil",dif2:"Fácil",dif3:"Justa",dif4:"Difícil",dif5:"Muy difícil",
+      volver:"¿Volverías a jugar sin que nadie te lo pida?",yes:"Sí",maybe:"Quizás",no:"No",
+      s3:"03 · Súper y cartas",super:"¿Entendiste el súper? (soltar el dedo para cargarlo, tocar para cancelar)",
+      sup1:"Enseguida",sup2:"Tras unas partidas",sup3:"No del todo",sup4:"No sabía que existía",
+      favorito:"¿Qué súper o clase te gustó más? ¿Y cuál menos?",
+      evolucion:"¿Viste evolucionar tu súper (la cámara lenta dorada al vencer a un jefe)?",
+      evo1:"Sí, me gustó",evo2:"Sí, no me convenció",evo3:"No llegué",
+      s4:"04 · Pantalla y fallos",legibilidad:"¿Veías bien tu UAP y las balas enemigas?",lost:"Me perdía",clear:"Siempre claro",
+      fallos:"¿Algún fallo, cierre o tirón? ¿Qué no entendiste?",fallosPh:"Qué pasó y en qué momento",
+      s5:"05 · Para terminar",mejor:"Lo que más te gustó",cambiar:"Lo que cambiarías",
+      send:"Enviar informe",sending:"Enviando…",needFun:"Falta la pregunta de diversión (1 a 5).",
+      sendErr:"No se ha podido enviar: copia el informe de abajo.",copyIntro:"Si no se ha podido enviar, copia el informe y mándaselo al desarrollador por WhatsApp o Discord.",
+      copyBtn:"Copiar informe",copied:"Informe copiado.",selectCopy:"Selecciona el texto y cópialo.",
+      doneT:"Informe recibido.",doneP:"¡Gracias! Tus respuestas le llegan directamente al desarrollador."},
+    de: {file:"Akte NFH-TEST",classified:"Geheim",field:"Einsatzbericht",h1a:"Bericht vom",h1b:"Tester",
+      intro:"Danke, dass du NOT FROM HERE testest. 14 kurze Fragen, etwa 3 Minuten. Beantworte, woran du dich erinnerst; alles ist freiwillig außer dem Spaß.",
+      s1:"01 · Du und deine Runden",nombre:"Name oder Spitzname",optional:"Freiwillig",movil:"Handy",movilPh:"z. B. Samsung A54",
+      partidas:"Wie viele Runden hast du gespielt?",mas10:"Mehr als 10",record:"Wie weit bist du in deiner besten Runde gekommen?",
+      recordHint:"Die Minute oder der letzte Boss, den du gesehen hast (El Toro, The Independence, Maurya…).",
+      s2:"02 · Gefühl",diversion:"Wie viel Spaß hattest du? *",bored:"Gelangweilt",hooked:"Gefesselt",
+      dificultad:"Die Schwierigkeit war…",dif1:"Viel zu leicht",dif2:"Leicht",dif3:"Genau richtig",dif4:"Schwer",dif5:"Viel zu schwer",
+      volver:"Würdest du wieder spielen, ohne dass dich jemand darum bittet?",yes:"Ja",maybe:"Vielleicht",no:"Nein",
+      s3:"03 · Supers und Karten",super:"Hast du den Super verstanden? (Finger heben zum Aufladen, tippen zum Abbrechen)",
+      sup1:"Sofort",sup2:"Nach ein paar Runden",sup3:"Nicht ganz",sup4:"Wusste nicht, dass es ihn gibt",
+      favorito:"Welcher Super oder welche Klasse hat dir am besten gefallen? Und welche am wenigsten?",
+      evolucion:"Hast du gesehen, wie sich dein Super entwickelt (die goldene Zeitlupe nach einem Boss)?",
+      evo1:"Ja, hat mir gefallen",evo2:"Ja, hat mich nicht überzeugt",evo3:"So weit kam ich nicht",
+      s4:"04 · Bildschirm und Fehler",legibilidad:"Konntest du dein UAP und die feindlichen Kugeln gut sehen?",lost:"Ich war verloren",clear:"Immer klar",
+      fallos:"Fehler, Absturz oder Ruckler? Etwas, das du nicht verstanden hast?",fallosPh:"Was passiert ist und wann",
+      s5:"05 · Zum Schluss",mejor:"Was dir am besten gefallen hat",cambiar:"Was du ändern würdest",
+      send:"Bericht senden",sending:"Wird gesendet…",needFun:"Beantworte die Spaß-Frage (1 bis 5).",
+      sendErr:"Senden fehlgeschlagen: kopiere den Bericht unten.",copyIntro:"Wenn das Senden nicht geklappt hat, kopiere den Bericht und schick ihn dem Entwickler per WhatsApp oder Discord.",
+      copyBtn:"Bericht kopieren",copied:"Bericht kopiert.",selectCopy:"Markiere den Text und kopiere ihn.",
+      doneT:"Bericht erhalten.",doneP:"Danke! Deine Antworten gehen direkt an den Entwickler."},
+    pt: {file:"Dossiê NFH-TEST",classified:"Confidencial",field:"Relatório de campo",h1a:"Relatório de",h1b:"tester",
+      intro:"Obrigado por testar NOT FROM HERE. São 14 perguntas curtas, cerca de 3 minutos. Responde ao que te lembrares; tudo é opcional, menos a diversão.",
+      s1:"01 · Tu e as tuas partidas",nombre:"Nome ou alcunha",optional:"Opcional",movil:"Telemóvel",movilPh:"Ex.: Samsung A54",
+      partidas:"Quantas partidas jogaste?",mas10:"Mais de 10",record:"Até onde chegaste na tua melhor partida?",
+      recordHint:"O minuto ou o último chefe que viste (El Toro, The Independence, Maurya…).",
+      s2:"02 · Sensação",diversion:"Quanto te divertiste? *",bored:"Aborreci-me",hooked:"Fiquei viciado",
+      dificultad:"A dificuldade pareceu-te…",dif1:"Muito fácil",dif2:"Fácil",dif3:"Justa",dif4:"Difícil",dif5:"Muito difícil",
+      volver:"Voltarias a jogar sem ninguém te pedir?",yes:"Sim",maybe:"Talvez",no:"Não",
+      s3:"03 · Súper e cartas",super:"Percebeste o súper? (levantar o dedo para carregar, tocar para cancelar)",
+      sup1:"Logo",sup2:"Depois de algumas partidas",sup3:"Não muito bem",sup4:"Não sabia que existia",
+      favorito:"Que súper ou classe gostaste mais? E menos?",
+      evolucion:"Viste o teu súper evoluir (a câmara lenta dourada ao vencer um chefe)?",
+      evo1:"Sim, gostei",evo2:"Sim, não me convenceu",evo3:"Não cheguei lá",
+      s4:"04 · Ecrã e erros",legibilidad:"Vias bem o teu UAP e as balas inimigas?",lost:"Perdia-me",clear:"Sempre claro",
+      fallos:"Algum erro, fecho ou travão? Algo que não percebeste?",fallosPh:"O que aconteceu e em que momento",
+      s5:"05 · Para terminar",mejor:"O que mais gostaste",cambiar:"O que mudarias",
+      send:"Enviar relatório",sending:"A enviar…",needFun:"Falta a pergunta da diversão (1 a 5).",
+      sendErr:"Não foi possível enviar: copia o relatório abaixo.",copyIntro:"Se não foi possível enviar, copia o relatório e manda-o ao programador por WhatsApp ou Discord.",
+      copyBtn:"Copiar relatório",copied:"Relatório copiado.",selectCopy:"Seleciona o texto e copia-o.",
+      doneT:"Relatório recebido.",doneP:"Obrigado! As tuas respostas chegam diretamente ao programador."},
+    it: {file:"Fascicolo NFH-TEST",classified:"Riservato",field:"Rapporto sul campo",h1a:"Rapporto del",h1b:"tester",
+      intro:"Grazie per aver provato NOT FROM HERE. Sono 14 domande brevi, circa 3 minuti. Rispondi a quello che ricordi; tutto è facoltativo tranne il divertimento.",
+      s1:"01 · Tu e le tue partite",nombre:"Nome o soprannome",optional:"Facoltativo",movil:"Telefono",movilPh:"Es.: Samsung A54",
+      partidas:"Quante partite hai giocato?",mas10:"Più di 10",record:"Fin dove sei arrivato nella tua partita migliore?",
+      recordHint:"Il minuto o l'ultimo boss che hai visto (El Toro, The Independence, Maurya…).",
+      s2:"02 · Sensazioni",diversion:"Quanto ti sei divertito? *",bored:"Mi sono annoiato",hooked:"Mi ha preso",
+      dificultad:"La difficoltà ti è sembrata…",dif1:"Troppo facile",dif2:"Facile",dif3:"Giusta",dif4:"Difficile",dif5:"Troppo difficile",
+      volver:"Rigiocheresti senza che nessuno te lo chieda?",yes:"Sì",maybe:"Forse",no:"No",
+      s3:"03 · Super e carte",super:"Hai capito la super? (alza il dito per caricarla, tocca per annullare)",
+      sup1:"Subito",sup2:"Dopo qualche partita",sup3:"Non del tutto",sup4:"Non sapevo che esistesse",
+      favorito:"Quale super o classe ti è piaciuta di più? E di meno?",
+      evolucion:"Hai visto evolvere la tua super (il rallentatore dorato dopo aver battuto un boss)?",
+      evo1:"Sì, mi è piaciuto",evo2:"Sì, non mi ha convinto",evo3:"Non ci sono arrivato",
+      s4:"04 · Schermo ed errori",legibilidad:"Vedevi bene il tuo UAP e i proiettili nemici?",lost:"Mi perdevo",clear:"Sempre chiaro",
+      fallos:"Qualche bug, chiusura o scatto? Qualcosa che non hai capito?",fallosPh:"Cosa è successo e in che momento",
+      s5:"05 · Per finire",mejor:"Cosa ti è piaciuto di più",cambiar:"Cosa cambieresti",
+      send:"Invia rapporto",sending:"Invio in corso…",needFun:"Manca la domanda sul divertimento (da 1 a 5).",
+      sendErr:"Non è stato possibile inviarlo: copia il rapporto qui sotto.",copyIntro:"Se non è stato possibile inviarlo, copia il rapporto e mandalo allo sviluppatore su WhatsApp o Discord.",
+      copyBtn:"Copia rapporto",copied:"Rapporto copiato.",selectCopy:"Seleziona il testo e copialo.",
+      doneT:"Rapporto ricevuto.",doneP:"Grazie! Le tue risposte arrivano direttamente allo sviluppatore."}
+  };
+  var LABELS = {nombre:"Nombre",movil:"Móvil",partidas:"Partidas",record:"Mejor partida",diversion:"Diversión (1-5)",dificultad:"Dificultad",
+    volver:"Volvería a jugar",super:"Entendió el súper",favorito:"Súper o clase favorita",evolucion:"Evolución del súper",
+    legibilidad:"Se ve bien (1-5)",fallos:"Fallos o dudas",mejor:"Lo mejor",cambiar:"Lo que cambiaría"};
+  var FIELDS = Object.keys(LABELS);
+  var form = document.getElementById("f"), statusEl = document.getElementById("status"), send = document.getElementById("send");
+  var lang = "en";
+
+  function setLang(l){
+    if(!T[l]) return; lang = l; var d = T[l];
+    document.documentElement.lang = l;
+    document.querySelectorAll("[data-t]").forEach(function(el){ var k = el.getAttribute("data-t"); if(d[k]) el.textContent = d[k]; });
+    document.querySelectorAll("[data-ph]").forEach(function(el){ el.setAttribute("placeholder", d[el.getAttribute("data-ph")]); });
+    document.querySelectorAll(".lang button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"); });
+    document.title = d.h1a + " " + d.h1b + " · NFH";
+    try { localStorage.setItem("nfh-report-lang", l); } catch(e){}
+  }
+  document.querySelectorAll(".lang button").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.lang); }); });
+  var start = "en";
+  try { var q = new URLSearchParams(location.search).get("lang"); if (q && T[q]) start = q; else { var s = localStorage.getItem("nfh-report-lang"); if (s && T[s]) start = s; else { var nav = (navigator.language || "en").slice(0,2).toLowerCase(); if (T[nav]) start = nav; } } } catch(e){}
+  setLang(start);
+
+  function values(){
+    var out = {};
+    FIELDS.forEach(function(k){ var el = form.elements[k]; out[k] = el ? String(el.value || "").trim() : ""; });
+    return out;
+  }
+  function asText(v){
+    return "INFORME DE TESTER · NOT FROM HERE (" + lang.toUpperCase() + ")\n" + FIELDS.filter(function(k){ return v[k]; }).map(function(k){ return LABELS[k] + ": " + v[k]; }).join("\n");
+  }
+  function setStatus(text, kind){ statusEl.textContent = text; statusEl.className = kind || ""; }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var d = T[lang], v = values();
+    if (!v.diversion) { setStatus(d.needFun, "err"); return; }
+    document.getElementById("copybox").value = asText(v);
+    send.disabled = true; setStatus(d.sending);
+    var body = Object.assign({}, v, { lang: lang, website: document.getElementById("website").value, version: "1.0.17" });
+    fetch("/api/report", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(){ form.hidden = true; document.getElementById("done").hidden = false; window.scrollTo(0, 0); })
+      .catch(function(){ document.getElementById("copyarea").hidden = false; setStatus(d.sendErr, "err"); })
+      .then(function(){ send.disabled = false; });
+  });
+
+  document.getElementById("copy").addEventListener("click", function(){
+    var box = document.getElementById("copybox"), d = T[lang];
+    try { navigator.clipboard.writeText(box.value).then(function(){ setStatus(d.copied, "ok"); }, function(){ box.select(); setStatus(d.selectCopy, "err"); }); }
+    catch(_) { box.select(); setStatus(d.selectCopy, "err"); }
+  });
+})();
+</script>
+</body>
+</html>
